@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="pt-BR" class="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dinamica</title>
+    <link rel="icon" type="image/png" href="./assets/favicon.png" />
+    <link rel="stylesheet" href="./assets/styles.css" />
+    <script src="./assets/app.js" defer></script>
+  </head>
+  <body>
+    <header id="site-header" class="fixed inset-x-0 top-0 z-50 transition-all duration-500 bg-transparent">
+      <div class="mx-auto flex max-w-[1600px] items-center justify-between px-6 py-5 md:px-12">
+        <a href="./index.html" class="group flex items-center gap-3" aria-label="Dinamica — início">
+          <img src="./assets/dinamica-logo.png" alt="Dinamica" class="h-7 w-auto md:h-8" draggable="false" />
+        </a>
+
+        <nav class="hidden items-center gap-10 md:flex">
+          <a data-nav href="./index.html" class="link-underline text-xs uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground">Início</a>
+          <a data-nav href="./dinamica.html" class="link-underline text-xs uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground">Dinamica</a>
+          <a data-nav href="./projetos.html" class="link-underline text-xs uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground">Projetos</a>
+          <a data-nav href="./contato.html" class="link-underline text-xs uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground">Contato</a>
+        </nav>
+
+        <a href="./contato.html" class="hidden md:inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-foreground">
+          <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
+          Iniciar contato
+        </a>
+
+        <button id="menu-toggle" aria-label="Menu" class="md:hidden flex h-9 w-9 flex-col items-center justify-center gap-1.5">
+          <span id="menu-line-1" class="h-px w-5 bg-foreground transition-transform"></span>
+          <span id="menu-line-2" class="h-px w-5 bg-foreground transition-transform"></span>
+        </button>
+      </div>
+
+      <div id="mobile-menu" class="md:hidden border-t border-border bg-background/95 backdrop-blur-xl hidden">
+        <nav class="flex flex-col px-6 py-6">
+          <a href="./index.html" class="py-3 font-display text-2xl tracking-tight">Início</a>
+          <a href="./dinamica.html" class="py-3 font-display text-2xl tracking-tight">Dinamica</a>
+          <a href="./projetos.html" class="py-3 font-display text-2xl tracking-tight">Projetos</a>
+          <a href="./contato.html" class="py-3 font-display text-2xl tracking-tight">Contato</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="min-h-screen bg-background text-foreground">
+      <main>
+        <section class="grain min-h-[60vh] pt-28 pb-16 md:pt-40">
+          <div class="mx-auto max-w-[1600px] px-6 md:px-12">
+            <p class="label-eyebrow">— Contato</p>
+            <h1 class="reveal mt-8 font-display leading-[0.95] tracking-[-0.035em] text-[clamp(2.75rem,9vw,8rem)]">
+              Conversa<br />
+              <span class="text-accent">aberta.</span>
+            </h1>
+            <p class="reveal mt-10 max-w-xl text-muted-foreground md:text-lg">
+              Para novos projetos, alinhamentos ou construção de algo específico,
+              o contato permanece aberto.
+            </p>
+          </div>
+        </section>
+
+        <section class="border-t border-border">
+          <ul class="divide-y divide-border">
+            <li>
+              <div class="reveal group block">
+                <div class="mx-auto grid max-w-[1600px] grid-cols-12 items-center gap-6 px-6 py-10 md:px-12 md:py-16">
+                  <span class="col-span-12 font-display tracking-tight transition-colors group-hover:text-accent text-[clamp(2.25rem,6vw,5rem)] md:col-span-6">
+                    WhatsApp
+                  </span>
+                  <span class="col-span-8 text-sm text-muted-foreground md:col-span-4 md:text-base">
+                    Resposta direta
+                  </span>
+                  <span class="col-span-4 text-right text-2xl text-accent md:col-span-2 md:text-3xl">—</span>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="reveal group block">
+                <div class="mx-auto grid max-w-[1600px] grid-cols-12 items-center gap-6 px-6 py-10 md:px-12 md:py-16">
+                  <span class="col-span-12 font-display tracking-tight transition-colors group-hover:text-accent text-[clamp(2.25rem,6vw,5rem)] md:col-span-6">
+                    Instagram
+                  </span>
+                  <span class="col-span-8 text-sm text-muted-foreground md:col-span-4 md:text-base">
+                    @dinamica
+                  </span>
+                  <span class="col-span-4 text-right text-2xl text-accent md:col-span-2 md:text-3xl">—</span>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="reveal group block">
+                <div class="mx-auto grid max-w-[1600px] grid-cols-12 items-center gap-6 px-6 py-10 md:px-12 md:py-16">
+                  <span class="col-span-12 font-display tracking-tight transition-colors group-hover:text-accent text-[clamp(2.25rem,6vw,5rem)] md:col-span-6">
+                    Email
+                  </span>
+                  <span class="col-span-8 text-sm text-muted-foreground md:col-span-4 md:text-base">
+                    contato@dinamica.studio
+                  </span>
+                  <span class="col-span-4 text-right text-2xl text-accent md:col-span-2 md:text-3xl">—</span>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </section>
+      </main>
+
+      <footer class="border-t border-border bg-background">
+        <div class="mx-auto max-w-[1600px] px-6 py-16 md:px-12 md:py-20">
+          <div class="grid gap-12 md:grid-cols-12">
+            <div class="md:col-span-6">
+              <p class="label-eyebrow">Ponto de partida</p>
+              <h3 class="mt-6 font-display leading-[0.98] tracking-tight text-[clamp(1.75rem,4vw,3.25rem)]">
+                Alguns projetos não começam<br />
+                no layout. Começam<br />
+                <span class="text-muted-foreground">na forma como são pensados.</span>
+              </h3>
+              <a href="./contato.html" class="mt-8 inline-flex items-center gap-3 border-b border-foreground pb-1 font-display text-base md:text-lg">
+                Abrir conversa
+                <span class="text-accent">→</span>
+              </a>
+            </div>
+
+            <div class="md:col-span-3 md:col-start-9">
+              <p class="label-eyebrow">Navegação</p>
+              <ul class="mt-6 space-y-3 text-sm">
+                <li><a href="./index.html" class="link-underline">Início</a></li>
+                <li><a href="./dinamica.html" class="link-underline">Dinamica</a></li>
+                <li><a href="./projetos.html" class="link-underline">Projetos</a></li>
+                <li><a href="./contato.html" class="link-underline">Contato</a></li>
+              </ul>
+            </div>
+
+            <div class="md:col-span-3">
+              <p class="label-eyebrow">Direto</p>
+              <ul class="mt-6 space-y-3 text-sm">
+                <li><span class="text-muted-foreground">WhatsApp</span></li>
+                <li><span class="text-muted-foreground">Instagram</span></li>
+                <li><span class="text-muted-foreground">Email</span></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="mt-20 flex flex-col items-start justify-between gap-6 border-t border-border pt-8 text-xs text-muted-foreground md:flex-row md:items-end">
+            <img src="./assets/dinamica-logo.png" alt="Dinamica" class="h-10 w-auto opacity-90" />
+            <div class="flex flex-col gap-2 md:items-end">
+              <p>© <span id="year"></span> Dinamica — Direção, design e estrutura.</p>
+              <p class="flex items-center gap-2">
+                <span class="h-1 w-1 rounded-full bg-accent"></span>
+                Construído com intenção.
+              </p>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      document.getElementById("year").textContent = String(new Date().getFullYear());
+    </script>
+  </body>
+</html>

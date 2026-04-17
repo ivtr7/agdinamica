@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="pt-BR" class="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dinamica</title>
+    <link rel="icon" type="image/png" href="./assets/favicon.png" />
+    <link rel="stylesheet" href="./assets/styles.css" />
+    <script src="./assets/app.js" defer></script>
+  </head>
+  <body>
+    <header
+      id="site-header"
+      class="fixed inset-x-0 top-0 z-50 transition-all duration-500 bg-transparent"
+    >
+      <div class="mx-auto flex max-w-[1600px] items-center justify-between px-6 py-5 md:px-12">
+        <a href="./index.html" class="group flex items-center gap-3" aria-label="Dinamica — início">
+          <img src="./assets/dinamica-logo.png" alt="Dinamica" class="h-7 w-auto md:h-8" draggable="false" />
+        </a>
+
+        <nav class="hidden items-center gap-10 md:flex">
+          <a
+            data-nav
+            href="./index.html"
+            class="link-underline text-xs uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Início
+          </a>
+          <a
+            data-nav
+            href="./dinamica.html"
+            class="link-underline text-xs uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Dinamica
+          </a>
+          <a
+            data-nav
+            href="./projetos.html"
+            class="link-underline text-xs uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Projetos
+          </a>
+          <a
+            data-nav
+            href="./contato.html"
+            class="link-underline text-xs uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Contato
+          </a>
+        </nav>
+
+        <a
+          href="./contato.html"
+          class="hidden md:inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-foreground"
+        >
+          <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
+          Iniciar contato
+        </a>
+
+        <button id="menu-toggle" aria-label="Menu" class="md:hidden flex h-9 w-9 flex-col items-center justify-center gap-1.5">
+          <span id="menu-line-1" class="h-px w-5 bg-foreground transition-transform"></span>
+          <span id="menu-line-2" class="h-px w-5 bg-foreground transition-transform"></span>
+        </button>
+      </div>
+
+      <div id="mobile-menu" class="md:hidden border-t border-border bg-background/95 backdrop-blur-xl hidden">
+        <nav class="flex flex-col px-6 py-6">
+          <a href="./index.html" class="py-3 font-display text-2xl tracking-tight">Início</a>
+          <a href="./dinamica.html" class="py-3 font-display text-2xl tracking-tight">Dinamica</a>
+          <a href="./projetos.html" class="py-3 font-display text-2xl tracking-tight">Projetos</a>
+          <a href="./contato.html" class="py-3 font-display text-2xl tracking-tight">Contato</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="min-h-screen bg-background text-foreground">
+      <main class="overflow-x-hidden">
+        <section class="relative grain min-h-[88vh] pt-24 pb-32 md:pt-36 md:pb-48">
+          <div class="mx-auto max-w-[1600px] px-6 md:px-12">
+            <div class="flex items-center gap-3">
+              <span class="h-1.5 w-1.5 rounded-full bg-accent pulse-dot"></span>
+              <p class="label-eyebrow">Estúdio de direção visual</p>
+            </div>
+
+            <h1 class="reveal mt-8 font-display leading-[0.92] tracking-[-0.035em] text-[clamp(2.5rem,9vw,8rem)]">
+              Presença não se<br />
+              constrói com mais<br />
+              <span class="text-muted-foreground">conteúdo.</span>
+            </h1>
+
+            <h2 class="reveal mt-4 font-display leading-[0.95] tracking-[-0.035em] text-[clamp(1.75rem,6vw,5.5rem)]">
+              Se constrói com <span class="italic text-accent">direção.</span>
+            </h2>
+
+            <div class="reveal mt-12 grid gap-8 md:mt-16 md:grid-cols-12">
+              <p class="md:col-span-6 md:col-start-7 text-balance text-base leading-relaxed text-muted-foreground md:text-lg">
+                Identidade, sites e estruturas digitais desenvolvidas para
+                organizar percepção, sustentar posicionamento e transmitir valor
+                com clareza.
+              </p>
+            </div>
+
+            <div class="reveal mt-12 flex flex-col items-start gap-6 md:mt-16 md:flex-row md:items-center md:justify-between">
+              <a
+                href="./contato.html"
+                class="group inline-flex items-center gap-3 border border-border-strong px-6 py-4 font-display text-base transition-colors hover:border-accent hover:text-accent md:px-8 md:py-5 md:text-lg"
+              >
+                Iniciar contato
+                <span class="text-accent transition-transform group-hover:translate-x-1">→</span>
+              </a>
+              <p class="label-eyebrow flex items-center gap-3">
+                <span class="inline-block h-px w-10 bg-border-strong"></span>
+                Role para ver
+              </p>
+            </div>
+          </div>
+
+          <div class="pointer-events-none absolute inset-x-0 bottom-0 overflow-hidden">
+            <div class="flex whitespace-nowrap font-display leading-none text-foreground/[0.04] animate-marquee text-[clamp(3rem,9vw,9rem)]">
+              <span class="px-4">DIREÇÃO · POSICIONAMENTO · ESTRUTURA · PRESENÇA · </span>
+              <span class="px-4">DIREÇÃO · POSICIONAMENTO · ESTRUTURA · PRESENÇA · </span>
+            </div>
+          </div>
+        </section>
+
+        <section class="border-t border-border py-20 md:py-32">
+          <div class="mx-auto max-w-[1600px] px-6 md:px-12">
+            <div class="grid gap-8 md:grid-cols-12 md:gap-12">
+              <div class="md:col-span-3">
+                <p class="label-eyebrow">— Base</p>
+              </div>
+              <div class="reveal md:col-span-9">
+                <p class="font-display leading-[1.1] tracking-tight text-foreground text-[clamp(1.5rem,3.5vw,2.75rem)]">
+                  Nem toda marca precisa falar mais.<br />
+                  <span class="text-muted-foreground">Muitas só precisam parar de parecer comuns.</span>
+                </p>
+                <p class="mt-10 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
+                  Quando imagem, mensagem e estrutura não caminham juntas, o
+                  problema não é visibilidade, é percepção.
+                </p>
+                <p class="mt-6 max-w-2xl font-display text-lg text-foreground md:text-2xl">
+                  A construção começa antes do design.<br />
+                  <span class="text-accent">Começa na direção.</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="border-t border-border bg-background py-20 md:py-32">
+          <div class="mx-auto max-w-[1600px] px-6 md:px-12">
+            <div class="grid gap-6 md:grid-cols-12">
+              <p class="label-eyebrow md:col-span-3">— Atuação</p>
+              <h2 class="reveal md:col-span-9 font-display leading-[0.95] tracking-tight text-[clamp(2rem,5vw,4.25rem)]">
+                Estruturas<br />desenvolvidas.
+              </h2>
+            </div>
+          </div>
+
+          <div class="relative" data-hscroll>
+            <div
+              data-hscroll-scroller
+              class="flex cursor-grab snap-x snap-mandatory overflow-x-auto overflow-y-hidden scroll-smooth select-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden mt-10 gap-5 px-6 pb-6 md:mt-14 md:gap-6 md:px-12"
+            >
+              <article
+                class="group relative flex h-[60vh] min-h-[400px] w-[80vw] shrink-0 snap-center flex-col justify-between border border-border bg-surface p-7 transition-colors hover:border-accent sm:w-[55vw] md:w-[42vw] md:p-10 lg:w-[34vw]"
+              >
+                <div class="flex items-center justify-between">
+                  <span class="font-display text-sm tracking-[0.2em] text-muted-foreground">01</span>
+                  <span class="h-1.5 w-1.5 rounded-full bg-accent opacity-0 transition-opacity group-hover:opacity-100"></span>
+                </div>
+                <div>
+                  <h3 class="font-display leading-[1.05] tracking-tight text-[clamp(1.5rem,3vw,2.25rem)]">Identidade e direção visual</h3>
+                  <p class="mt-5 max-w-md text-sm leading-relaxed text-muted-foreground md:text-base">
+                    Construções visuais com coerência, leitura e personalidade. Nada genérico, nada descartável.
+                  </p>
+                </div>
+              </article>
+
+              <article
+                class="group relative flex h-[60vh] min-h-[400px] w-[80vw] shrink-0 snap-center flex-col justify-between border border-border bg-surface p-7 transition-colors hover:border-accent sm:w-[55vw] md:w-[42vw] md:p-10 lg:w-[34vw]"
+              >
+                <div class="flex items-center justify-between">
+                  <span class="font-display text-sm tracking-[0.2em] text-muted-foreground">02</span>
+                  <span class="h-1.5 w-1.5 rounded-full bg-accent opacity-0 transition-opacity group-hover:opacity-100"></span>
+                </div>
+                <div>
+                  <h3 class="font-display leading-[1.05] tracking-tight text-[clamp(1.5rem,3vw,2.25rem)]">Sites e páginas</h3>
+                  <p class="mt-5 max-w-md text-sm leading-relaxed text-muted-foreground md:text-base">
+                    Estruturas digitais pensadas para apresentar com clareza e sustentar valor. Menos poluição, mais intenção.
+                  </p>
+                </div>
+              </article>
+
+              <article
+                class="group relative flex h-[60vh] min-h-[400px] w-[80vw] shrink-0 snap-center flex-col justify-between border border-border bg-surface p-7 transition-colors hover:border-accent sm:w-[55vw] md:w-[42vw] md:p-10 lg:w-[34vw]"
+              >
+                <div class="flex items-center justify-between">
+                  <span class="font-display text-sm tracking-[0.2em] text-muted-foreground">03</span>
+                  <span class="h-1.5 w-1.5 rounded-full bg-accent opacity-0 transition-opacity group-hover:opacity-100"></span>
+                </div>
+                <div>
+                  <h3 class="font-display leading-[1.05] tracking-tight text-[clamp(1.5rem,3vw,2.25rem)]">Design para posicionamento</h3>
+                  <p class="mt-5 max-w-md text-sm leading-relaxed text-muted-foreground md:text-base">
+                    Peças visuais que não apenas existem — mas comunicam. Cada elemento com função estratégica.
+                  </p>
+                </div>
+              </article>
+
+              <article
+                class="group relative flex h-[60vh] min-h-[400px] w-[80vw] shrink-0 snap-center flex-col justify-between border border-border bg-surface p-7 transition-colors hover:border-accent sm:w-[55vw] md:w-[42vw] md:p-10 lg:w-[34vw]"
+              >
+                <div class="flex items-center justify-between">
+                  <span class="font-display text-sm tracking-[0.2em] text-muted-foreground">04</span>
+                  <span class="h-1.5 w-1.5 rounded-full bg-accent opacity-0 transition-opacity group-hover:opacity-100"></span>
+                </div>
+                <div>
+                  <h3 class="font-display leading-[1.05] tracking-tight text-[clamp(1.5rem,3vw,2.25rem)]">Estrutura digital e presença</h3>
+                  <p class="mt-5 max-w-md text-sm leading-relaxed text-muted-foreground md:text-base">
+                    Organização da marca no ambiente digital. Do visual ao comportamento.
+                  </p>
+                </div>
+              </article>
+
+              <div class="w-2 shrink-0"></div>
+            </div>
+
+            <div class="mx-auto mt-6 flex max-w-[1600px] items-center gap-4 px-6 md:px-12">
+              <button
+                type="button"
+                aria-label="Anterior"
+                data-hscroll-prev
+                class="flex h-10 w-10 items-center justify-center border border-border-strong text-foreground transition-all hover:border-accent hover:text-accent disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-border-strong disabled:hover:text-foreground"
+              >
+                ←
+              </button>
+              <button
+                type="button"
+                aria-label="Próximo"
+                data-hscroll-next
+                class="flex h-10 w-10 items-center justify-center border border-border-strong text-foreground transition-all hover:border-accent hover:text-accent disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-border-strong disabled:hover:text-foreground"
+              >
+                →
+              </button>
+              <span class="ml-2 text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground">Arraste ou use as setas</span>
+              <span class="h-px flex-1 bg-border-strong"></span>
+            </div>
+          </div>
+        </section>
+
+        <section class="border-t border-border py-20 md:py-32">
+          <div class="mx-auto max-w-[1600px] px-6 md:px-12">
+            <div class="grid gap-8 md:grid-cols-12 md:gap-12">
+              <div class="md:col-span-3">
+                <p class="label-eyebrow">— Princípio</p>
+              </div>
+              <div class="reveal md:col-span-9">
+                <h2 class="font-display leading-[0.95] tracking-tight text-[clamp(2rem,5vw,4.25rem)]">
+                  Direção antes<br />
+                  de estética.
+                </h2>
+                <div class="mt-10 grid gap-8 md:mt-14 md:grid-cols-2 md:gap-12">
+                  <p class="text-base leading-relaxed text-muted-foreground md:text-lg">
+                    Design sem direção vira só aparência.<br />
+                    Estratégia sem forma não se sustenta.
+                  </p>
+                  <p class="text-base leading-relaxed text-foreground md:text-lg">
+                    Cada projeto parte de leitura, contexto e intenção.
+                    A estética vem depois — <span class="text-accent">como consequência.</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="border-t border-border bg-surface py-20 md:py-32">
+          <div class="mx-auto max-w-[1600px] px-6 md:px-12">
+            <div class="grid gap-6 md:grid-cols-12">
+              <p class="label-eyebrow md:col-span-3">— Estrutura</p>
+              <h2 class="reveal md:col-span-9 font-display leading-[0.95] tracking-tight text-[clamp(2rem,5vw,4.25rem)]">
+                Como cada<br />projeto se constrói.
+              </h2>
+            </div>
+
+            <ol class="mt-12 divide-y divide-border-strong border-y border-border-strong md:mt-16">
+              <li class="reveal group grid grid-cols-12 items-baseline gap-4 py-6 transition-colors hover:bg-background md:gap-6 md:py-8">
+                <span class="col-span-2 font-display text-sm text-muted-foreground md:col-span-1 md:text-xl">01</span>
+                <h3 class="col-span-10 font-display tracking-tight text-xl md:col-span-4 md:text-3xl">Leitura</h3>
+                <p class="col-span-12 max-w-md text-sm text-muted-foreground md:col-span-6 md:col-start-7 md:text-base">
+                  Contexto, mercado, percepção atual e objetivo real.
+                </p>
+              </li>
+              <li class="reveal group grid grid-cols-12 items-baseline gap-4 py-6 transition-colors hover:bg-background md:gap-6 md:py-8">
+                <span class="col-span-2 font-display text-sm text-muted-foreground md:col-span-1 md:text-xl">02</span>
+                <h3 class="col-span-10 font-display tracking-tight text-xl md:col-span-4 md:text-3xl">Direção</h3>
+                <p class="col-span-12 max-w-md text-sm text-muted-foreground md:col-span-6 md:col-start-7 md:text-base">
+                  Definição de linguagem, posicionamento e intenção.
+                </p>
+              </li>
+              <li class="reveal group grid grid-cols-12 items-baseline gap-4 py-6 transition-colors hover:bg-background md:gap-6 md:py-8">
+                <span class="col-span-2 font-display text-sm text-muted-foreground md:col-span-1 md:text-xl">03</span>
+                <h3 class="col-span-10 font-display tracking-tight text-xl md:col-span-4 md:text-3xl">Construção</h3>
+                <p class="col-span-12 max-w-md text-sm text-muted-foreground md:col-span-6 md:col-start-7 md:text-base">
+                  Visual, estrutura e desenvolvimento.
+                </p>
+              </li>
+              <li class="reveal group grid grid-cols-12 items-baseline gap-4 py-6 transition-colors hover:bg-background md:gap-6 md:py-8">
+                <span class="col-span-2 font-display text-sm text-muted-foreground md:col-span-1 md:text-xl">04</span>
+                <h3 class="col-span-10 font-display tracking-tight text-xl md:col-span-4 md:text-3xl">Refinamento</h3>
+                <p class="col-span-12 max-w-md text-sm text-muted-foreground md:col-span-6 md:col-start-7 md:text-base">
+                  Ajuste fino, coerência e consistência.
+                </p>
+              </li>
+              <li class="reveal group grid grid-cols-12 items-baseline gap-4 py-6 transition-colors hover:bg-background md:gap-6 md:py-8">
+                <span class="col-span-2 font-display text-sm text-muted-foreground md:col-span-1 md:text-xl">05</span>
+                <h3 class="col-span-10 font-display tracking-tight text-xl md:col-span-4 md:text-3xl">Aplicação</h3>
+                <p class="col-span-12 max-w-md text-sm text-muted-foreground md:col-span-6 md:col-start-7 md:text-base">
+                  Entrega pensada para uso real, não só apresentação.
+                </p>
+              </li>
+            </ol>
+          </div>
+        </section>
+
+        <section class="border-t border-border py-20 md:py-32">
+          <div class="mx-auto max-w-[1600px] px-6 md:px-12">
+            <div class="grid gap-6 md:grid-cols-12">
+              <p class="label-eyebrow md:col-span-3">— Recortes</p>
+              <div class="md:col-span-9">
+                <h2 class="reveal font-display leading-[0.95] tracking-tight text-[clamp(2rem,5vw,4.25rem)]">
+                  Projetos com<br />intenção visível.
+                </h2>
+                <p class="reveal mt-6 max-w-xl text-muted-foreground md:text-lg">
+                  Marcas, páginas e estruturas construídas com foco em clareza,
+                  percepção e posicionamento.
+                </p>
+              </div>
+            </div>
+
+            <div class="mt-10 grid gap-5 md:mt-14 md:grid-cols-3 md:gap-6">
+              <a href="./projetos.html" class="reveal group relative flex aspect-[4/5] flex-col justify-between overflow-hidden border border-border bg-surface p-6 transition-all hover:border-accent md:p-8">
+                <div class="absolute inset-0 -z-0 opacity-30 transition-opacity group-hover:opacity-60" style="background: radial-gradient(circle at 30% 20%, oklch(0.27 0.005 285) 0%, transparent 60%);"></div>
+                <div class="relative flex items-center justify-between">
+                  <span class="label-eyebrow">Saúde · Premium</span>
+                  <span class="text-accent opacity-0 transition-opacity group-hover:opacity-100">→</span>
+                </div>
+                <div class="relative">
+                  <h3 class="font-display text-xl leading-tight tracking-tight md:text-2xl">Clínica Odontológica — Reestruturação</h3>
+                  <p class="mt-3 text-sm text-muted-foreground">Direção visual e página desenvolvidas para elevar percepção de valor e reforçar posicionamento premium.</p>
+                </div>
+              </a>
+
+              <a href="./projetos.html" class="reveal group relative flex aspect-[4/5] flex-col justify-between overflow-hidden border border-border bg-surface p-6 transition-all hover:border-accent md:p-8">
+                <div class="absolute inset-0 -z-0 opacity-30 transition-opacity group-hover:opacity-60" style="background: radial-gradient(circle at 70% 80%, oklch(0.22 0.04 25) 0%, transparent 60%);"></div>
+                <div class="relative flex items-center justify-between">
+                  <span class="label-eyebrow">Sistema Web</span>
+                  <span class="text-accent opacity-0 transition-opacity group-hover:opacity-100">→</span>
+                </div>
+                <div class="relative">
+                  <h3 class="font-display text-xl leading-tight tracking-tight md:text-2xl">Interface e estrutura</h3>
+                  <p class="mt-3 text-sm text-muted-foreground">Organização visual e experiência voltadas para clareza, uso contínuo e escalabilidade.</p>
+                </div>
+              </a>
+
+              <a href="./projetos.html" class="reveal group relative flex aspect-[4/5] flex-col justify-between overflow-hidden border border-border bg-surface p-6 transition-all hover:border-accent md:p-8">
+                <div class="absolute inset-0 -z-0 opacity-30 transition-opacity group-hover:opacity-60" style="background: radial-gradient(circle at 30% 20%, oklch(0.27 0.005 285) 0%, transparent 60%);"></div>
+                <div class="relative flex items-center justify-between">
+                  <span class="label-eyebrow">Marca</span>
+                  <span class="text-accent opacity-0 transition-opacity group-hover:opacity-100">→</span>
+                </div>
+                <div class="relative">
+                  <h3 class="font-display text-xl leading-tight tracking-tight md:text-2xl">Identidade aplicada</h3>
+                  <p class="mt-3 text-sm text-muted-foreground">Sistema visual completo, do logotipo à presença digital — uma linguagem só.</p>
+                </div>
+              </a>
+            </div>
+
+            <div class="mt-10 flex justify-end">
+              <a href="./projetos.html" class="link-underline label-eyebrow">Ver todos os recortes →</a>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="border-t border-border bg-background">
+        <div class="mx-auto max-w-[1600px] px-6 py-16 md:px-12 md:py-20">
+          <div class="grid gap-12 md:grid-cols-12">
+            <div class="md:col-span-6">
+              <p class="label-eyebrow">Ponto de partida</p>
+              <h3 class="mt-6 font-display leading-[0.98] tracking-tight text-[clamp(1.75rem,4vw,3.25rem)]">
+                Alguns projetos não começam<br />
+                no layout. Começam<br />
+                <span class="text-muted-foreground">na forma como são pensados.</span>
+              </h3>
+              <a
+                href="./contato.html"
+                class="mt-8 inline-flex items-center gap-3 border-b border-foreground pb-1 font-display text-base md:text-lg"
+              >
+                Abrir conversa
+                <span class="text-accent">→</span>
+              </a>
+            </div>
+
+            <div class="md:col-span-3 md:col-start-9">
+              <p class="label-eyebrow">Navegação</p>
+              <ul class="mt-6 space-y-3 text-sm">
+                <li><a href="./index.html" class="link-underline">Início</a></li>
+                <li><a href="./dinamica.html" class="link-underline">Dinamica</a></li>
+                <li><a href="./projetos.html" class="link-underline">Projetos</a></li>
+                <li><a href="./contato.html" class="link-underline">Contato</a></li>
+              </ul>
+            </div>
+
+            <div class="md:col-span-3">
+              <p class="label-eyebrow">Direto</p>
+              <ul class="mt-6 space-y-3 text-sm">
+                <li><span class="text-muted-foreground">WhatsApp</span></li>
+                <li><span class="text-muted-foreground">Instagram</span></li>
+                <li><span class="text-muted-foreground">Email</span></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="mt-20 flex flex-col items-start justify-between gap-6 border-t border-border pt-8 text-xs text-muted-foreground md:flex-row md:items-end">
+            <img src="./assets/dinamica-logo.png" alt="Dinamica" class="h-10 w-auto opacity-90" />
+            <div class="flex flex-col gap-2 md:items-end">
+              <p>© <span id="year"></span> Dinamica — Direção, design e estrutura.</p>
+              <p class="flex items-center gap-2">
+                <span class="h-1 w-1 rounded-full bg-accent"></span>
+                Construído com intenção.
+              </p>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      document.getElementById("year").textContent = String(new Date().getFullYear());
+    </script>
+  </body>
+</html>
