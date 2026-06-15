@@ -1,440 +1,1318 @@
-<!doctype html>
-<html lang="pt-BR" class="dark">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Dinamica</title>
-    <link rel="icon" type="image/png" href="./assets/favicon.png" />
-    <link rel="stylesheet" href="./assets/styles.css" />
-    <script src="./assets/app.js" defer></script>
-  </head>
-  <body>
-    <header
-      id="site-header"
-      class="fixed inset-x-0 top-0 z-50 transition-all duration-500 bg-transparent"
-    >
-      <div class="mx-auto flex max-w-[1600px] items-center justify-between px-6 py-5 md:px-12">
-        <a href="./index.html" class="group flex items-center gap-3" aria-label="Dinamica — início">
-          <img src="./assets/dinamica-logo.png" alt="Dinamica" class="h-7 w-auto md:h-8" draggable="false" />
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agência Dinâmica — Design, Sites, Tráfego e Automações com IA</title>
+  <meta name="description" content="Design profissional, sites modernos, tráfego pago, sistemas web personalizados e automações com IA para empresas que querem crescer com estratégia." />
+
+  <!-- Fontes utilizadas: Anton (display), Instrument Serif (itálico decorativo) e Inter (corpo) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+
+  <style>
+    /* =====================================================
+       VARIÁVEIS DE TEMA (identidade visual da Dinâmica)
+       ===================================================== */
+    :root {
+      --fundo: oklch(0.13 0.012 285);
+      --fundo-2: oklch(0.10 0.012 285);
+      --texto: oklch(0.97 0.005 285);
+      --texto-mute: oklch(0.66 0.02 285);
+      --card: oklch(0.16 0.015 285);
+      --borda: oklch(1 0 0 / 8%);
+      --borda-suave: oklch(1 0 0 / 5%);
+      --rosa: oklch(0.68 0.27 358);
+      --rosa-glow: oklch(0.78 0.22 358);
+      --violeta: oklch(0.55 0.25 310);
+      --branco: oklch(0.99 0.005 0);
+
+      --fonte-display: "Anton", "Bebas Neue", Impact, sans-serif;
+      --fonte-serif: "Instrument Serif", serif;
+      --fonte-sans: "Inter", system-ui, sans-serif;
+
+      --max-largura: 80rem; /* 1280px */
+    }
+
+    /* =====================================================
+       RESET BÁSICO
+       ===================================================== */
+    *, *::before, *::after { box-sizing: border-box; }
+    * { margin: 0; padding: 0; border-color: var(--borda); }
+    html { scroll-behavior: smooth; }
+    img, svg { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; background: none; border: none; color: inherit; }
+    ul { list-style: none; }
+
+    /* =====================================================
+       BODY + FUNDO COM BRILHOS, GRID E VINHETA
+       ===================================================== */
+    body {
+      font-family: var(--fonte-sans);
+      color: var(--texto);
+      background-color: var(--fundo);
+      background-image:
+        radial-gradient(ellipse 70% 50% at 20% 0%, oklch(0.55 0.25 310 / 0.12), transparent 60%),
+        radial-gradient(ellipse 60% 50% at 85% 30%, oklch(0.68 0.27 358 / 0.10), transparent 60%),
+        radial-gradient(ellipse 80% 60% at 50% 100%, oklch(0.55 0.25 310 / 0.08), transparent 70%),
+        linear-gradient(180deg, oklch(0.12 0.012 285) 0%, oklch(0.10 0.012 285) 100%);
+      background-attachment: fixed;
+      min-height: 100vh;
+      position: relative;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    /* Camada de grid sutil sobre todo o fundo */
+    body::before {
+      content: "";
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 0;
+      background-image:
+        linear-gradient(to right, oklch(1 0 0 / 0.035) 1px, transparent 1px),
+        linear-gradient(to bottom, oklch(1 0 0 / 0.035) 1px, transparent 1px);
+      background-size: 56px 56px;
+      -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 40%, black 40%, transparent 100%);
+              mask-image: radial-gradient(ellipse 90% 80% at 50% 40%, black 40%, transparent 100%);
+    }
+    /* Vinheta nas bordas para foco no conteúdo central */
+    body::after {
+      content: "";
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 0;
+      box-shadow: inset 0 0 200px 40px oklch(0 0 0 / 0.6);
+    }
+    header, main, footer, section { position: relative; z-index: 1; }
+
+    /* =====================================================
+       UTILITÁRIOS
+       ===================================================== */
+    .container { width: 100%; max-width: var(--max-largura); margin: 0 auto; padding: 0 1.25rem; }
+    @media (min-width: 640px) { .container { padding: 0 2rem; } }
+
+    .fonte-display { font-family: var(--fonte-display); letter-spacing: -0.01em; text-transform: uppercase; }
+    .fonte-serif-italica { font-family: var(--fonte-serif); font-style: italic; text-transform: lowercase; }
+    .texto-rosa { color: var(--rosa); }
+    .texto-mute { color: var(--texto-mute); }
+
+    /* Marcador de canto (cantos rosas em torno de cards) */
+    .marca-canto { position: absolute; width: 28px; height: 28px; border-color: var(--rosa); }
+    .marca-canto.tl { top: 0; left: 0; border-top: 2px solid; border-left: 2px solid; }
+    .marca-canto.tr { top: 0; right: 0; border-top: 2px solid; border-right: 2px solid; }
+    .marca-canto.bl { bottom: 0; left: 0; border-bottom: 2px solid; border-left: 2px solid; }
+    .marca-canto.br { bottom: 0; right: 0; border-bottom: 2px solid; border-right: 2px solid; }
+
+    /* Cards com brilho rosa no topo ao hover */
+    .card-brilho {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--borda);
+      background: oklch(0.16 0.015 285 / 0.4);
+      backdrop-filter: blur(8px);
+      border-radius: 1rem;
+      transition: transform .4s ease, border-color .4s ease;
+    }
+    .card-brilho::before {
+      content: ""; position: absolute; inset: 0 0 auto 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--rosa), transparent);
+      opacity: 0; transition: opacity .4s ease;
+    }
+    .card-brilho::after {
+      content: ""; position: absolute; top: -1px; right: -1px;
+      width: 80px; height: 80px;
+      background: radial-gradient(circle at top right, var(--rosa) 0%, transparent 70%);
+      opacity: 0; transition: opacity .4s ease; pointer-events: none;
+    }
+    .card-brilho:hover { transform: translateY(-4px); border-color: oklch(0.68 0.27 358 / 0.4); }
+    .card-brilho:hover::before { opacity: 1; }
+    .card-brilho:hover::after { opacity: .25; }
+
+    /* Cabeçalho de seção (eyebrow + título + descrição) */
+    .cabecalho-secao { display: flex; flex-direction: column; gap: 1rem; max-width: 48rem; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: .5rem; align-self: flex-start;
+      font-size: .75rem; font-weight: 500; text-transform: uppercase; letter-spacing: .25em;
+      color: var(--rosa);
+    }
+    .eyebrow .ponto { width: 6px; height: 6px; border-radius: 999px; background: var(--rosa); }
+    .titulo-secao {
+      font-family: var(--fonte-display);
+      text-transform: uppercase;
+      font-size: clamp(2rem, 4.5vw, 3.6rem);
+      line-height: 1;
+      font-weight: 400;
+    }
+    .descricao-secao { font-size: 1rem; line-height: 1.625; color: var(--texto-mute); max-width: 42rem; }
+    @media (min-width: 640px) { .descricao-secao { font-size: 1.125rem; } }
+
+    /* =====================================================
+       BOTÃO PATHFINDER ANIMADO (rosa + violeta)
+       ===================================================== */
+    @property --angulo {
+      syntax: "<angle>"; initial-value: 0deg; inherits: false;
+    }
+    @keyframes girar-borda { to { --angulo: 360deg; } }
+
+    .botao-animado {
+      --marca: var(--rosa);
+      --marca-texto: var(--branco);
+      position: relative;
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 12px 22px; border: none; font-size: 13px;
+      background: transparent; border-radius: 100px; font-weight: 700;
+      letter-spacing: 0.02em; color: var(--marca);
+      overflow: hidden; max-width: 100%;
+      transition: all .6s cubic-bezier(0.23, 1, 0.32, 1);
+      isolation: isolate;
+    }
+    /* Borda animada com conic-gradient (rosa + violeta) */
+    .botao-animado::before {
+      content: ""; position: absolute; inset: 0; padding: 1.5px;
+      border-radius: inherit;
+      background: conic-gradient(
+        from var(--angulo, 0deg),
+        transparent 0deg,
+        transparent 220deg,
+        oklch(0.55 0.25 310 / 0.25) 240deg,
+        var(--violeta) 260deg,
+        var(--rosa) 300deg,
+        oklch(0.68 0.27 358 / 0.25) 330deg,
+        transparent 360deg
+      );
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+              mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude;
+      animation: girar-borda 3s linear infinite;
+      pointer-events: none; z-index: 1;
+    }
+    .botao-animado > * { position: relative; z-index: 2; }
+    @media (min-width: 768px) {
+      .botao-animado { padding: 16px 36px; font-size: 16px; }
+    }
+    .botao-animado svg {
+      position: absolute; width: 20px; fill: var(--marca); z-index: 9;
+      transition: all .8s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .botao-animado .seta-1 { right: 12px; }
+    .botao-animado .seta-2 { left: -25%; }
+    @media (min-width: 768px) {
+      .botao-animado svg { width: 24px; }
+      .botao-animado .seta-1 { right: 16px; }
+    }
+    .botao-animado .circulo {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 20px; height: 20px; background: var(--marca);
+      border-radius: 50%; opacity: 0;
+      transition: all .8s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .botao-animado .texto {
+      position: relative; z-index: 3; transform: translateX(-12px);
+      transition: all .8s cubic-bezier(0.23, 1, 0.32, 1); white-space: nowrap;
+    }
+    .botao-animado:hover { color: var(--marca-texto); border-radius: 12px; }
+    .botao-animado:hover .seta-1 { right: -25%; }
+    .botao-animado:hover .seta-2 { left: 16px; }
+    .botao-animado:hover .texto { transform: translateX(12px); }
+    .botao-animado:hover svg { fill: var(--marca-texto); }
+    .botao-animado:active { transform: scale(.95); }
+    .botao-animado:hover .circulo { width: 320px; height: 320px; opacity: 1; z-index: 2; }
+    .botao-animado.fantasma { opacity: .85; }
+
+    /* =====================================================
+       NAVBAR
+       ===================================================== */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      transition: all .3s ease; background: transparent;
+    }
+    .navbar.rolado {
+      background: oklch(0.13 0.012 285 / 0.7);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--borda);
+    }
+    .navbar-conteudo {
+      max-width: var(--max-largura); margin: 0 auto;
+      padding: 0 1.25rem; height: 4rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    @media (min-width: 640px) { .navbar-conteudo { padding: 0 2rem; } }
+
+    .logo {
+      font-family: var(--fonte-display);
+      font-size: 1.5rem; letter-spacing: .02em;
+      display: inline-flex; align-items: center; gap: .5rem;
+    }
+    .logo-marca {
+      display: inline-grid; place-items: center;
+      width: 1.8rem; height: 1.8rem; border-radius: .5rem;
+      background: linear-gradient(135deg, var(--violeta), var(--rosa));
+      color: var(--branco); font-family: var(--fonte-display); font-size: 1.1rem;
+      box-shadow: 0 8px 24px oklch(0.68 0.27 358 / 0.35);
+    }
+
+    .nav-links {
+      display: none;
+      align-items: center; gap: .25rem;
+      border: 1px solid var(--borda);
+      background: oklch(0.16 0.015 285 / 0.4);
+      backdrop-filter: blur(8px);
+      padding: .375rem .5rem;
+      border-radius: 999px;
+    }
+    @media (min-width: 1024px) { .nav-links { display: inline-flex; } }
+    .nav-links a {
+      padding: .375rem .875rem; font-size: .875rem; color: var(--texto-mute);
+      border-radius: 999px; transition: all .2s ease;
+    }
+    .nav-links a:hover { color: var(--texto); background: oklch(1 0 0 / 0.05); }
+
+    .nav-acoes { display: flex; align-items: center; gap: .5rem; }
+    .btn-whats {
+      display: none; align-items: center; gap: .5rem;
+      font-size: .875rem; font-weight: 500; padding: .5rem 1rem;
+      border: 1px solid var(--borda); border-radius: 999px;
+      transition: all .2s ease;
+    }
+    @media (min-width: 640px) { .btn-whats { display: inline-flex; } }
+    .btn-whats:hover { border-color: oklch(0.68 0.27 358 / 0.6); color: var(--rosa); }
+    .btn-whats .pulso {
+      width: 6px; height: 6px; border-radius: 999px; background: var(--rosa);
+      animation: pulsar 2s ease-in-out infinite;
+    }
+    @keyframes pulsar { 0%, 100% { opacity: 1; } 50% { opacity: .4; } }
+
+    .btn-menu {
+      display: inline-grid; place-items: center;
+      width: 2.25rem; height: 2.25rem;
+      border: 1px solid var(--borda); border-radius: 999px;
+    }
+    @media (min-width: 1024px) { .btn-menu { display: none; } }
+
+    .menu-mobile {
+      display: none;
+      border-top: 1px solid var(--borda);
+      background: oklch(0.13 0.012 285 / 0.95);
+      backdrop-filter: blur(20px);
+    }
+    .menu-mobile.aberto { display: block; }
+    .menu-mobile-conteudo { padding: 1rem 1.25rem; display: flex; flex-direction: column; gap: .25rem; }
+    .menu-mobile a {
+      padding: .75rem .75rem; font-size: 1rem; color: oklch(0.97 0.005 285 / 0.9);
+      border-bottom: 1px solid oklch(1 0 0 / 0.04);
+    }
+    .menu-mobile a:hover { color: var(--rosa); }
+    .menu-mobile .btn-whats-mobile {
+      margin-top: .75rem; padding: .75rem 1rem; border-radius: 999px;
+      background: var(--rosa); color: var(--branco); text-align: center; font-weight: 600;
+    }
+
+    /* =====================================================
+       HERO
+       ===================================================== */
+    .hero {
+      position: relative; width: 100%;
+      min-height: 100svh;
+      display: flex; align-items: center;
+      padding: 5rem 1.25rem 2.5rem;
+      overflow: hidden;
+    }
+    @media (min-width: 640px) { .hero { padding-left: 2rem; padding-right: 2rem; } }
+    @media (min-width: 1024px) {
+      .hero { min-height: 0; height: 100svh; max-height: 720px; padding-top: 4rem; padding-bottom: 1.5rem; }
+    }
+    .hero-grid {
+      width: 100%; max-width: var(--max-largura); margin: 0 auto;
+      display: grid; gap: 2rem; align-items: center;
+    }
+    @media (min-width: 1024px) { .hero-grid { grid-template-columns: 1.1fr 0.9fr; gap: 2.5rem; } }
+
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: .5rem; align-self: flex-start;
+      font-size: .75rem; font-weight: 500; text-transform: uppercase; letter-spacing: .2em;
+      color: var(--texto-mute);
+      border: 1px solid var(--borda); border-radius: 999px;
+      padding: .375rem .75rem;
+      background: oklch(0.16 0.015 285 / 0.4); backdrop-filter: blur(8px);
+    }
+    .hero-tag svg { width: 14px; height: 14px; color: var(--rosa); }
+
+    .hero h1 {
+      font-family: var(--fonte-display); font-weight: 400;
+      font-size: clamp(2.2rem, 5.2vw, 4.5rem);
+      line-height: .95; text-transform: uppercase;
+    }
+    .hero p {
+      font-size: .9rem; line-height: 1.625; color: var(--texto-mute); max-width: 36rem;
+    }
+    @media (min-width: 640px) { .hero p { font-size: 1rem; } }
+
+    .hero-coluna { display: flex; flex-direction: column; gap: 1.25rem; animation: aparecer .8s ease-out both; }
+    @media (min-width: 1024px) { .hero-coluna { gap: 1.5rem; } }
+
+    .hero-acoes { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; padding-top: .5rem; }
+
+    .hero-pontos { display: flex; align-items: center; gap: 1.5rem; padding-top: 1rem; font-size: .75rem; color: var(--texto-mute); flex-wrap: wrap; }
+    .hero-pontos > div { display: flex; align-items: center; gap: .5rem; }
+    .ponto-cor { width: 6px; height: 6px; border-radius: 999px; }
+    .ponto-rosa { background: var(--rosa); }
+    .ponto-violeta { background: var(--violeta); }
+    .ponto-rosa-claro { background: var(--rosa-glow); }
+
+    .hero-visual {
+      position: relative;
+      aspect-ratio: 4/5; width: 100%;
+    }
+    @media (min-width: 1024px) {
+      .hero-visual { aspect-ratio: auto; height: 55vh; max-height: 480px; }
+    }
+    .hero-visual .brilho-fundo {
+      position: absolute; inset: -2.5rem;
+      background: radial-gradient(circle at 60% 40%, oklch(0.68 0.27 358 / 0.25), transparent 60%);
+      filter: blur(40px);
+    }
+    .hero-frame {
+      position: relative; width: 100%; height: 100%;
+      border-radius: 1.5rem; overflow: hidden;
+      border: 1px solid var(--borda); background: oklch(0.16 0.015 285 / 0.4);
+      backdrop-filter: blur(8px);
+    }
+    .hero-frame .info-topo {
+      position: absolute; top: 1.25rem; left: 1.25rem; right: 1.25rem;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 10px; text-transform: uppercase; letter-spacing: .2em; color: var(--texto-mute);
+    }
+    .hero-frame .info-topo .versao { font-family: ui-monospace, SFMono-Regular, monospace; color: var(--rosa); }
+
+    .hero-frame .monograma {
+      position: absolute; inset: 0; display: grid; place-items: center;
+    }
+    .monograma svg {
+      width: 55%; max-width: 260px;
+      filter: drop-shadow(0 20px 40px oklch(0.68 0.27 358 / 0.4));
+      animation: flutuar 6s ease-in-out infinite;
+    }
+    @keyframes flutuar { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+    .mini-card {
+      position: absolute; border: 1px solid var(--borda);
+      background: oklch(0.13 0.012 285 / 0.8); backdrop-filter: blur(8px);
+      padding: .75rem; border-radius: .75rem;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,.6);
+    }
+    .mini-card-esq { left: 1rem; bottom: 5rem; width: 150px; }
+    .mini-card-dir { right: 1rem; top: 4rem; width: 140px; }
+    @media (min-width: 640px) {
+      .mini-card-esq { left: 1.5rem; }
+      .mini-card-dir { right: 1.5rem; }
+    }
+    .mini-card .rotulo { font-size: 10px; text-transform: uppercase; letter-spacing: .15em; color: var(--texto-mute); }
+    .mini-card .valor { font-family: var(--fonte-display); font-size: 1.5rem; margin-top: .25rem; }
+    .mini-card .legenda { font-size: 10px; color: var(--rosa); }
+    .barra { margin-top: .5rem; height: 4px; border-radius: 999px; background: oklch(1 0 0 / 0.05); overflow: hidden; }
+    .barra > span { display: block; height: 100%; width: 80%; background: linear-gradient(90deg, var(--violeta), var(--rosa)); }
+
+    .mini-grade { margin-top: .5rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+    .mini-grade > i { display: block; aspect-ratio: 1/1; border-radius: 2px; background: oklch(1 0 0 / 0.05); border: 1px solid var(--borda); }
+
+    .hero-frame .info-rodape {
+      position: absolute; left: 1.25rem; right: 1.25rem; bottom: 1.25rem;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 10px; text-transform: uppercase; letter-spacing: .2em; color: var(--texto-mute);
+      border-top: 1px solid var(--borda); padding-top: .75rem;
+    }
+    .hero-frame .info-rodape .ponto-rosa-grande { color: var(--rosa); }
+
+    @keyframes aparecer { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* =====================================================
+       SOLUÇÕES
+       ===================================================== */
+    .secao { padding: 6rem 1.25rem; border-top: 1px solid oklch(1 0 0 / 0.04); }
+    @media (min-width: 640px) { .secao { padding-left: 2rem; padding-right: 2rem; padding-top: 8rem; padding-bottom: 8rem; } }
+    .secao.sem-borda { border-top: none; }
+    .secao-conteudo { max-width: var(--max-largura); margin: 0 auto; }
+
+    #solucoes { padding-top: 6rem; padding-bottom: 3rem; border-top: none; }
+    @media (min-width: 640px) { #solucoes { padding-top: 8rem; padding-bottom: 4rem; } }
+
+    .grid-solucoes {
+      margin-top: 3.5rem;
+      display: grid; gap: 1rem;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 640px) { .grid-solucoes { grid-template-columns: repeat(2, 1fr); gap: 1.25rem; } }
+    @media (min-width: 1024px) { .grid-solucoes { grid-template-columns: repeat(3, 1fr); } }
+
+    .card-solucao { padding: 1.75rem; display: flex; flex-direction: column; gap: 1.25rem; }
+    .card-solucao .topo { display: flex; align-items: center; justify-content: space-between; }
+    .card-solucao .icone {
+      width: 3rem; height: 3rem; border-radius: .75rem;
+      border: 1px solid var(--borda); background: oklch(0.13 0.012 285 / 0.6);
+      display: grid; place-items: center; transition: border-color .3s ease;
+    }
+    .card-solucao:hover .icone { border-color: oklch(0.68 0.27 358 / 0.6); }
+    .card-solucao .icone svg { width: 20px; height: 20px; color: var(--rosa); stroke: var(--rosa); fill: none; stroke-width: 1.8; }
+    .card-solucao .tag { font-family: ui-monospace, SFMono-Regular, monospace; font-size: .75rem; color: var(--texto-mute); letter-spacing: .15em; }
+    .card-solucao h3 { font-family: var(--fonte-display); text-transform: uppercase; font-size: 1.5rem; line-height: 1.15; font-weight: 400; }
+    .card-solucao p { font-size: .875rem; color: var(--texto-mute); line-height: 1.625; }
+
+    /* =====================================================
+       PROJETOS (vitrine)
+       ===================================================== */
+    #projetos { padding-top: 3rem; padding-bottom: 6rem; border-top: 1px solid oklch(1 0 0 / 0.04); }
+    @media (min-width: 640px) { #projetos { padding-top: 4rem; padding-bottom: 8rem; } }
+
+    .projetos-cabecalho {
+      display: flex; flex-direction: column; gap: 1.5rem;
+    }
+    @media (min-width: 1024px) { .projetos-cabecalho { flex-direction: row; align-items: flex-end; justify-content: space-between; } }
+    .vitrine-label {
+      display: none; font-size: .75rem; text-transform: uppercase; letter-spacing: .25em; color: var(--texto-mute);
+    }
+    @media (min-width: 1024px) { .vitrine-label { display: block; } }
+
+    .grid-projetos {
+      margin-top: 2.5rem; display: grid; gap: 1rem;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 640px) { .grid-projetos { grid-template-columns: repeat(2, 1fr); gap: 1.25rem; } }
+    @media (min-width: 1024px) { .grid-projetos { grid-template-columns: repeat(4, 1fr); } }
+
+    .card-projeto { display: flex; flex-direction: column; }
+    .preview-wrap {
+      position: relative; aspect-ratio: 16/11;
+      background: linear-gradient(135deg, var(--fundo), var(--card));
+      overflow: hidden;
+    }
+    .barra-navegador {
+      position: absolute; top: 0; left: 0; right: 0; height: 1.5rem; z-index: 10;
+      background: oklch(0.13 0.012 285 / 0.8); border-bottom: 1px solid var(--borda);
+      display: flex; align-items: center; padding: 0 .625rem; gap: .25rem;
+    }
+    .barra-navegador .ponto { width: 6px; height: 6px; border-radius: 999px; background: oklch(1 0 0 / 0.15); }
+    .barra-navegador .url {
+      margin-left: .5rem; font-size: 9px; color: var(--texto-mute);
+      font-family: ui-monospace, SFMono-Regular, monospace; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .preview-wrap img {
+      position: absolute; left: 0; right: 0; top: 1.5rem;
+      width: 100%; height: calc(100% - 1.5rem);
+      object-fit: cover; object-position: top;
+      transition: transform .7s ease;
+    }
+    .card-projeto:hover .preview-wrap img { transform: scale(1.05); }
+
+    .card-projeto .corpo { padding: 1rem; display: flex; flex-direction: column; gap: .5rem; }
+    @media (min-width: 640px) { .card-projeto .corpo { padding: 1.25rem; } }
+    .card-projeto .meta { display: flex; justify-content: space-between; align-items: center; font-size: 10px; }
+    .card-projeto .meta .tipo { color: var(--rosa); text-transform: uppercase; letter-spacing: .18em; font-weight: 500; }
+    .card-projeto .meta .contador { color: var(--texto-mute); font-family: ui-monospace, SFMono-Regular, monospace; }
+    .card-projeto h3 { font-family: var(--fonte-display); text-transform: uppercase; font-size: 1.125rem; line-height: 1.15; font-weight: 400; }
+    @media (min-width: 640px) { .card-projeto h3 { font-size: 1.25rem; } }
+    .card-projeto .desc { font-size: .75rem; color: var(--texto-mute); line-height: 1.625;
+      display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .link-rosa {
+      margin-top: .5rem; display: inline-flex; align-items: center; gap: .25rem;
+      font-size: .75rem; font-weight: 500; color: var(--rosa); width: fit-content;
+      transition: gap .2s ease;
+    }
+    .link-rosa:hover { gap: .5rem; }
+
+    /* =====================================================
+       ARTES
+       ===================================================== */
+    .grid-artes {
+      margin-top: 3.5rem; display: grid; gap: 1rem;
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @media (min-width: 640px) { .grid-artes { gap: 1.25rem; } }
+    @media (min-width: 1024px) { .grid-artes { grid-template-columns: repeat(3, 1fr); } }
+
+    .card-arte { position: relative; overflow: hidden; }
+    .card-arte.quadrado { aspect-ratio: 1/1; }
+    .card-arte.retrato { aspect-ratio: 4/5; }
+    .placeholder-arte {
+      position: absolute; inset: 0;
+      display: grid; place-items: center; color: var(--texto-mute);
+    }
+    .placeholder-arte .conteudo { display: flex; flex-direction: column; align-items: center; gap: .5rem; }
+    .placeholder-arte svg { width: 28px; height: 28px; opacity: .4; }
+    .placeholder-arte span { font-size: 10px; text-transform: uppercase; letter-spacing: .15em; }
+    .card-arte .overlay {
+      position: absolute; left: 0; right: 0; bottom: 0; padding: 1rem;
+      background: linear-gradient(to top, rgba(0,0,0,.85), rgba(0,0,0,.3), transparent);
+    }
+    .card-arte .categoria { font-size: 10px; text-transform: uppercase; letter-spacing: .25em; color: var(--rosa); font-weight: 500; }
+    .card-arte .titulo-arte { font-size: .875rem; font-weight: 500; margin-top: .25rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .card-arte .marca-canto.tl { opacity: 0; transition: opacity .3s ease; }
+    .card-arte:hover .marca-canto.tl { opacity: 1; }
+
+    /* =====================================================
+       SOBRE
+       ===================================================== */
+    #sobre .grid-sobre {
+      display: grid; gap: 3rem;
+    }
+    @media (min-width: 1024px) { #sobre .grid-sobre { grid-template-columns: 1fr 1fr; gap: 5rem; } }
+
+    .sobre-texto { margin-top: 2rem; display: flex; flex-direction: column; gap: 1.25rem; font-size: 1rem; line-height: 1.625; color: var(--texto-mute); }
+    .citacao {
+      margin-top: 2rem; position: relative; padding-left: 1.5rem;
+      border-left: 2px solid var(--rosa);
+    }
+    .citacao p {
+      font-family: var(--fonte-display); text-transform: uppercase;
+      font-size: 1.25rem; line-height: 1.15; font-weight: 400;
+    }
+    @media (min-width: 640px) { .citacao p { font-size: 1.5rem; } }
+
+    .card-diferenciais { padding: 1.75rem; }
+    @media (min-width: 640px) { .card-diferenciais { padding: 2.25rem; } }
+    .card-diferenciais .topo-card { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
+    .card-diferenciais .topo-card .label { font-size: .75rem; text-transform: uppercase; letter-spacing: .25em; color: var(--rosa); }
+    .card-diferenciais .topo-card .num { font-family: ui-monospace, SFMono-Regular, monospace; font-size: .75rem; color: var(--texto-mute); }
+    .card-diferenciais h3 { font-family: var(--fonte-display); text-transform: uppercase; font-size: 1.875rem; line-height: 1; font-weight: 400; }
+    @media (min-width: 640px) { .card-diferenciais h3 { font-size: 2.25rem; } }
+    .lista-diferenciais { margin-top: 1.75rem; display: grid; gap: .75rem; }
+    .lista-diferenciais li {
+      display: flex; align-items: flex-start; gap: .75rem;
+      font-size: .875rem; color: oklch(0.97 0.005 285 / 0.9);
+      padding: .5rem 0; border-bottom: 1px solid oklch(1 0 0 / 0.04);
+    }
+    .lista-diferenciais li:last-child { border-bottom: none; }
+    .check {
+      margin-top: 2px; width: 1.25rem; height: 1.25rem; flex-shrink: 0;
+      border: 1px solid oklch(0.68 0.27 358 / 0.4); border-radius: 999px;
+      display: grid; place-items: center;
+    }
+    .check svg { width: 12px; height: 12px; color: var(--rosa); stroke: var(--rosa); fill: none; stroke-width: 3; }
+    .card-diferenciais .rodape-texto { margin-top: 1.75rem; font-size: .75rem; color: var(--texto-mute); line-height: 1.625; }
+
+    /* =====================================================
+       PROCESSO
+       ===================================================== */
+    .grid-processo { margin-top: 3.5rem; position: relative; }
+    .linha-processo {
+      display: none; position: absolute; left: 0; right: 0; top: 2.25rem; height: 1px;
+      background: linear-gradient(to right, transparent, oklch(0.68 0.27 358 / 0.4), transparent);
+    }
+    @media (min-width: 1024px) { .linha-processo { display: block; } }
+    .cards-processo {
+      display: grid; gap: 1.25rem; grid-template-columns: 1fr;
+    }
+    @media (min-width: 640px) { .cards-processo { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1024px) { .cards-processo { grid-template-columns: repeat(5, 1fr); } }
+    .card-passo { padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
+    .card-passo .num-passo { font-family: var(--fonte-display); font-size: 2.25rem; color: var(--rosa); line-height: 1; }
+    .card-passo .topo-passo { display: flex; align-items: center; gap: .75rem; }
+    .card-passo .topo-passo .traco { flex: 1; height: 1px; background: var(--borda); }
+    .card-passo h3 { font-family: var(--fonte-display); text-transform: uppercase; font-size: 1.25rem; line-height: 1.15; font-weight: 400; }
+    .card-passo p { font-size: .875rem; color: var(--texto-mute); line-height: 1.625; }
+
+    /* =====================================================
+       CTA
+       ===================================================== */
+    #contato { padding: 6rem 1.25rem; border-top: none; }
+    @media (min-width: 640px) { #contato { padding: 8rem 2rem; } }
+    .cta-wrap { max-width: 64rem; margin: 0 auto; position: relative; }
+    .cta-box {
+      position: relative; padding: 2rem; text-align: center; overflow: hidden;
+      border-radius: 1.5rem; border: 1px solid var(--borda);
+      background: oklch(0.16 0.015 285 / 0.4); backdrop-filter: blur(8px);
+    }
+    @media (min-width: 640px) { .cta-box { padding: 3.5rem; } }
+    .cta-box .brilho {
+      position: absolute; top: -8rem; left: 50%; transform: translateX(-50%);
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, oklch(0.68 0.27 358 / 0.3), transparent 60%);
+      filter: blur(60px); pointer-events: none;
+    }
+    .cta-eyebrow {
+      position: relative; display: inline-flex; align-items: center; gap: .5rem;
+      font-size: .75rem; text-transform: uppercase; letter-spacing: .25em; color: var(--rosa);
+    }
+    .cta-eyebrow .pulso { width: 6px; height: 6px; border-radius: 999px; background: var(--rosa); animation: pulsar 2s ease-in-out infinite; }
+    .cta-box h2 {
+      position: relative; font-family: var(--fonte-display); text-transform: uppercase; font-weight: 400;
+      font-size: clamp(2rem, 5vw, 4rem); line-height: 1; margin-top: 1.25rem;
+    }
+    .cta-box .lead {
+      position: relative; margin: 1.5rem auto 0; max-width: 42rem; font-size: 1rem;
+      color: var(--texto-mute); line-height: 1.625;
+    }
+    @media (min-width: 640px) { .cta-box .lead { font-size: 1.125rem; } }
+    .cta-acoes {
+      position: relative; margin-top: 2.25rem;
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .75rem;
+    }
+    .cta-acoes .link-instagram { font-size: .875rem; color: var(--texto-mute); padding: .75rem 1rem; transition: color .2s ease; }
+    .cta-acoes .link-instagram:hover { color: var(--rosa); }
+
+    /* =====================================================
+       RODAPÉ
+       ===================================================== */
+    footer { border-top: 1px solid var(--borda); padding: 3.5rem 1.25rem; }
+    @media (min-width: 640px) { footer { padding: 3.5rem 2rem; } }
+    .footer-grid {
+      max-width: var(--max-largura); margin: 0 auto;
+      display: grid; gap: 2.5rem;
+    }
+    @media (min-width: 768px) { .footer-grid { grid-template-columns: repeat(3, 1fr); } }
+    .footer-grid p { font-size: .875rem; color: var(--texto-mute); max-width: 20rem; line-height: 1.625; margin-top: 1rem; }
+    .footer-label { font-size: .75rem; text-transform: uppercase; letter-spacing: .25em; color: var(--rosa); margin-bottom: .75rem; }
+    .footer-links { display: grid; grid-template-columns: repeat(2, 1fr); gap: .5rem 1rem; color: var(--texto-mute); font-size: .875rem; }
+    .footer-links a:hover { color: var(--texto); }
+    .footer-contato a {
+      display: flex; align-items: center; gap: .5rem; color: var(--texto-mute);
+      font-size: .875rem; margin-bottom: .75rem;
+    }
+    .footer-contato a:hover { color: var(--texto); }
+    .footer-contato svg { width: 16px; height: 16px; }
+    .footer-base {
+      max-width: var(--max-largura); margin: 3rem auto 0;
+      padding-top: 1.5rem; border-top: 1px solid oklch(1 0 0 / 0.04);
+      display: flex; flex-direction: column; gap: .75rem;
+      align-items: center; justify-content: space-between;
+      font-size: .75rem; color: var(--texto-mute); text-align: center;
+    }
+    @media (min-width: 640px) { .footer-base { flex-direction: row; text-align: left; } }
+
+  </style>
+</head>
+<body>
+
+  <!-- =====================================================
+       CABEÇALHO / NAVBAR
+       ===================================================== -->
+  <header class="navbar" id="navbar">
+    <div class="navbar-conteudo">
+      <a href="#inicio" class="logo" aria-label="Agência Dinâmica">
+        <img src="dinamica-logo.png" alt="Agência Dinâmica" style="height: 40px; width: auto;">
+      </a>
+
+      <!-- Links de navegação (desktop) -->
+      <nav class="nav-links" aria-label="Navegação principal">
+        <a href="#inicio">Início</a>
+        <a href="#solucoes">Soluções</a>
+        <a href="#projetos">Projetos</a>
+        <a href="#sobre">Sobre</a>
+        <a href="#contato">Contato</a>
+      </nav>
+
+      <div class="nav-acoes">
+        <a class="btn-whats" href="https://wa.me/5518900000000" target="_blank" rel="noreferrer">
+          <span class="pulso"></span>
+          Falar no WhatsApp
         </a>
-
-        <nav class="hidden items-center gap-10 md:flex">
-          <a
-            data-nav
-            href="./index.html"
-            class="link-underline text-xs uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Início
-          </a>
-          <a
-            data-nav
-            href="./dinamica.html"
-            class="link-underline text-xs uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Dinamica
-          </a>
-          <a
-            data-nav
-            href="./projetos.html"
-            class="link-underline text-xs uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Projetos
-          </a>
-          <a
-            data-nav
-            href="./contato.html"
-            class="link-underline text-xs uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Contato
-          </a>
-        </nav>
-
-        <a
-          href="./contato.html"
-          class="hidden md:inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-foreground"
-        >
-          <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
-          Iniciar contato
-        </a>
-
-        <button id="menu-toggle" aria-label="Menu" class="md:hidden flex h-9 w-9 flex-col items-center justify-center gap-1.5">
-          <span id="menu-line-1" class="h-px w-5 bg-foreground transition-transform"></span>
-          <span id="menu-line-2" class="h-px w-5 bg-foreground transition-transform"></span>
+        <button class="btn-menu" id="btn-menu" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu-mobile">
+          <!-- Ícone de menu -->
+          <svg id="icone-menu" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/>
+          </svg>
         </button>
       </div>
+    </div>
 
-      <div id="mobile-menu" class="md:hidden border-t border-border bg-background/95 backdrop-blur-xl hidden">
-        <nav class="flex flex-col px-6 py-6">
-          <a href="./index.html" class="py-3 font-display text-2xl tracking-tight">Início</a>
-          <a href="./dinamica.html" class="py-3 font-display text-2xl tracking-tight">Dinamica</a>
-          <a href="./projetos.html" class="py-3 font-display text-2xl tracking-tight">Projetos</a>
-          <a href="./contato.html" class="py-3 font-display text-2xl tracking-tight">Contato</a>
-        </nav>
+    <!-- Menu mobile -->
+    <div class="menu-mobile" id="menu-mobile">
+      <div class="menu-mobile-conteudo">
+        <a href="#inicio">Início</a>
+        <a href="#solucoes">Soluções</a>
+        <a href="#projetos">Projetos</a>
+        <a href="#sobre">Sobre</a>
+        <a href="#contato">Contato</a>
+        <a class="btn-whats-mobile" href="https://wa.me/5518900000000" target="_blank" rel="noreferrer">Falar no WhatsApp</a>
       </div>
-    </header>
+    </div>
+  </header>
 
-    <div class="min-h-screen bg-background text-foreground">
-      <main class="overflow-x-hidden">
-        <section class="relative grain min-h-[88vh] pt-24 pb-32 md:pt-36 md:pb-48">
-          <div class="mx-auto max-w-[1600px] px-6 md:px-12">
-            <div class="flex items-center gap-3">
-              <span class="h-1.5 w-1.5 rounded-full bg-accent pulse-dot"></span>
-              <p class="label-eyebrow">Estudio de direção visual E DESIGN</p>
-            </div>
+  <main>
+    <!-- =====================================================
+         HERO
+         ===================================================== -->
+    <section id="inicio" class="hero">
+      <span class="marca-canto tl" aria-hidden="true"></span>
+      <span class="marca-canto tr" aria-hidden="true"></span>
 
-            <h1 class="reveal mt-8 font-display leading-[0.92] tracking-[-0.035em] text-[clamp(2.5rem,9vw,8rem)]">
-              Presença não se<br />
-              constrói com mais<br />
-              <span class="text-muted-foreground">conteúdo.</span>
-            </h1>
+      <div class="hero-grid">
+        <!-- Coluna de texto -->
+        <div class="hero-coluna">
+          <span class="hero-tag">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 3l1.9 5.8L20 10l-5 3.6L16.5 20 12 16.5 7.5 20 9 13.6 4 10l6.1-1.2L12 3z"/>
+            </svg>
+            Agência de Design &amp; Tecnologia
+          </span>
 
-            <h2 class="reveal mt-4 font-display leading-[0.95] tracking-[-0.035em] text-[clamp(1.75rem,6vw,5.5rem)]">
-              Se constrói com <span class="italic text-accent">direção.</span>
-            </h2>
+          <h1>
+            Eleve o nível da sua
+            <span class="fonte-serif-italica texto-rosa">empresa</span>
+            agora mesmo
+          </h1>
 
-            <div class="reveal mt-12 grid gap-8 md:mt-16 md:grid-cols-12">
-              <p class="md:col-span-6 md:col-start-7 text-balance text-base leading-relaxed text-muted-foreground md:text-lg">
-                Identidade, sites e estruturas digitais desenvolvidas para
-                organizar percepção, sustentar posicionamento e transmitir valor
-                com clareza.
-              </p>
-            </div>
+          <p>
+            Design, estratégia e tecnologia trabalhando juntos para transformar
+            sua presença digital, fortalecer sua marca e melhorar seus resultados.
+          </p>
 
-            <div class="reveal mt-12 flex flex-col items-start gap-6 md:mt-16 md:flex-row md:items-center md:justify-between">
-              <a
-                href="./contato.html"
-                class="group inline-flex items-center gap-3 border border-border-strong px-6 py-4 font-display text-base transition-colors hover:border-accent hover:text-accent md:px-8 md:py-5 md:text-lg"
-              >
-                Iniciar contato
-                <span class="text-accent transition-transform group-hover:translate-x-1">→</span>
-              </a>
-              <p class="label-eyebrow flex items-center gap-3">
-                <span class="inline-block h-px w-10 bg-border-strong"></span>
-                Role para ver
-              </p>
-            </div>
+          <div class="hero-acoes">
+            <!-- Botão principal -->
+            <a class="botao-animado" href="https://wa.me/5518900000000" target="_blank" rel="noreferrer">
+              <svg class="seta seta-1" viewBox="0 0 24 24" aria-hidden="true"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"/></svg>
+              <span class="texto">Falar com a Agência Dinâmica</span>
+              <svg class="seta seta-2" viewBox="0 0 24 24" aria-hidden="true"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"/></svg>
+              <span class="circulo"></span>
+            </a>
+            <!-- Botão secundário -->
+            <a class="botao-animado fantasma" href="#projetos">
+              <svg class="seta seta-1" viewBox="0 0 24 24" aria-hidden="true"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"/></svg>
+              <span class="texto">Ver projetos</span>
+              <svg class="seta seta-2" viewBox="0 0 24 24" aria-hidden="true"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"/></svg>
+              <span class="circulo"></span>
+            </a>
           </div>
 
-          <div class="pointer-events-none absolute inset-x-0 bottom-0 overflow-hidden">
-            <div class="flex whitespace-nowrap font-display leading-none text-foreground/[0.04] animate-marquee text-[clamp(3rem,9vw,9rem)]">
-              <span class="px-4">DIREÇÃO · POSICIONAMENTO · ESTRUTURA · PRESENÇA · </span>
-              <span class="px-4">DIREÇÃO · POSICIONAMENTO · ESTRUTURA · PRESENÇA · </span>
-            </div>
+          <div class="hero-pontos">
+            <div><span class="ponto-cor ponto-rosa"></span> Design</div>
+            <div><span class="ponto-cor ponto-violeta"></span> Sites &amp; Sistemas</div>
+            <div><span class="ponto-cor ponto-rosa-claro"></span> Tráfego &amp; IA</div>
           </div>
-        </section>
+        </div>
 
-        <section class="border-t border-border py-20 md:py-32">
-          <div class="mx-auto max-w-[1600px] px-6 md:px-12">
-            <div class="grid gap-8 md:grid-cols-12 md:gap-12">
-              <div class="md:col-span-3">
-                <p class="label-eyebrow">— Base</p>
+        <!-- Coluna visual -->
+        <div class="hero-visual">
+          <div class="brilho-fundo" aria-hidden="true"></div>
+          <div class="hero-frame card-brilho">
+            <span class="marca-canto tl" aria-hidden="true"></span>
+            <span class="marca-canto br" aria-hidden="true"></span>
+
+            <div class="info-topo">
+              <span>// brand_system</span>
+              <span class="versao">v.2026</span>
+            </div>
+
+            <!-- Monograma A da Dinâmica -->
+            <div class="monograma">
+              <svg viewBox="0 0 200 200" aria-hidden="true">
+                <defs>
+                  <linearGradient id="grad-a" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="oklch(0.85 0.2 358)" />
+                    <stop offset="50%" stop-color="oklch(0.68 0.27 358)" />
+                    <stop offset="100%" stop-color="oklch(0.4 0.22 350)" />
+                  </linearGradient>
+                </defs>
+                <path d="M100 20 L180 180 L140 180 L100 90 L60 180 L20 180 Z" fill="url(#grad-a)" />
+                <path d="M100 20 L180 180 L140 180 L100 90 L60 180 L20 180 Z" fill="none" stroke="oklch(0.95 0.05 358)" stroke-width="0.8" opacity="0.5" />
+                <path d="M75 140 L125 140" stroke="oklch(0.95 0.05 358)" stroke-width="2" />
+              </svg>
+            </div>
+
+            <!-- Mini card de métrica esquerda -->
+            <div class="mini-card mini-card-esq">
+              <div class="rotulo">Design</div>
+              <div class="valor">+182%</div>
+              <div class="legenda">engajamento</div>
+              <div class="barra"><span></span></div>
+            </div>
+
+            <!-- Mini card de grade direita -->
+            <div class="mini-card mini-card-dir">
+              <div style="display:flex;align-items:center;justify-content:space-between;">
+                <span class="rotulo">Site</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="oklch(0.68 0.27 358)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/>
+                </svg>
               </div>
-              <div class="reveal md:col-span-9">
-                <p class="font-display leading-[1.1] tracking-tight text-foreground text-[clamp(1.5rem,3.5vw,2.75rem)]">
-                  Nem toda marca precisa falar mais.<br />
-                  <span class="text-muted-foreground">Muitas só precisam parar de parecer comuns.</span>
-                </p>
-                <p class="mt-10 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
-                  Quando imagem, mensagem e estrutura não caminham juntas, o
-                  problema não é visibilidade, é percepção.
-                </p>
-                <p class="mt-6 max-w-2xl font-display text-lg text-foreground md:text-2xl">
-                  A construção começa antes do design.<br />
-                  <span class="text-accent">Começa na direção.</span>
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="border-t border-border bg-background py-20 md:py-32">
-          <div class="mx-auto max-w-[1600px] px-6 md:px-12 pb-10 md:pb-16">
-            <div class="grid gap-6 md:grid-cols-12">
-              <p class="label-eyebrow md:col-span-3">— Atuação</p>
-              <h2 class="reveal md:col-span-9 font-display leading-[0.95] tracking-tight text-[clamp(2rem,5vw,4.25rem)]">
-                Estruturas<br />desenvolvidas.
-              </h2>
-            </div>
-          </div>
-
-          <div class="relative" data-hscroll>
-            <div
-              data-hscroll-scroller
-              class="flex cursor-grab snap-x snap-mandatory overflow-x-auto overflow-y-hidden scroll-smooth select-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden mt-20 gap-8 px-6 pb-6 md:mt-32 md:gap-10 md:px-12"
-            >
-              <article
-                class="group card-neo relative flex h-[60vh] min-h-[400px] w-[80vw] shrink-0 snap-center flex-col justify-between border border-border bg-surface p-10 sm:w-[55vw] md:w-[42vw] md:p-14 lg:w-[34vw]"
-              >
-                <div class="flex items-center justify-between">
-                  <span class="font-display text-sm tracking-[0.2em] text-muted-foreground">01</span>
-                  <span class="h-1.5 w-1.5 rounded-full bg-accent opacity-0 transition-opacity group-hover:opacity-100"></span>
-                </div>
-                <div>
-                  <h3 class="font-display leading-[1.05] tracking-tight text-[clamp(1.5rem,3vw,2.25rem)]">Identidade e direção visual</h3>
-                  <p class="mt-6 max-w-md text-sm leading-relaxed text-muted-foreground md:text-base">
-                    Construções visuais com coerência, leitura e personalidade. Nada genérico, nada descartável.
-                  </p>
-                </div>
-              </article>
-
-              <article
-                class="group card-neo relative flex h-[60vh] min-h-[400px] w-[80vw] shrink-0 snap-center flex-col justify-between border border-border bg-surface p-10 sm:w-[55vw] md:w-[42vw] md:p-14 lg:w-[34vw]"
-              >
-                <div class="flex items-center justify-between">
-                  <span class="font-display text-sm tracking-[0.2em] text-muted-foreground">02</span>
-                  <span class="h-1.5 w-1.5 rounded-full bg-accent opacity-0 transition-opacity group-hover:opacity-100"></span>
-                </div>
-                <div>
-                  <h3 class="font-display leading-[1.05] tracking-tight text-[clamp(1.5rem,3vw,2.25rem)]">Sites e páginas</h3>
-                  <p class="mt-6 max-w-md text-sm leading-relaxed text-muted-foreground md:text-base">
-                    Estruturas digitais pensadas para apresentar com clareza e sustentar valor. Menos poluição, mais intenção.
-                  </p>
-                </div>
-              </article>
-
-              <article
-                class="group card-neo relative flex h-[60vh] min-h-[400px] w-[80vw] shrink-0 snap-center flex-col justify-between border border-border bg-surface p-10 sm:w-[55vw] md:w-[42vw] md:p-14 lg:w-[34vw]"
-              >
-                <div class="flex items-center justify-between">
-                  <span class="font-display text-sm tracking-[0.2em] text-muted-foreground">03</span>
-                  <span class="h-1.5 w-1.5 rounded-full bg-accent opacity-0 transition-opacity group-hover:opacity-100"></span>
-                </div>
-                <div>
-                  <h3 class="font-display leading-[1.05] tracking-tight text-[clamp(1.5rem,3vw,2.25rem)]">Design para posicionamento</h3>
-                  <p class="mt-6 max-w-md text-sm leading-relaxed text-muted-foreground md:text-base">
-                    Peças visuais que não apenas existem — mas comunicam. Cada elemento com função estratégica.
-                  </p>
-                </div>
-              </article>
-
-              <article
-                class="group card-neo relative flex h-[60vh] min-h-[400px] w-[80vw] shrink-0 snap-center flex-col justify-between border border-border bg-surface p-10 sm:w-[55vw] md:w-[42vw] md:p-14 lg:w-[34vw]"
-              >
-                <div class="flex items-center justify-between">
-                  <span class="font-display text-sm tracking-[0.2em] text-muted-foreground">04</span>
-                  <span class="h-1.5 w-1.5 rounded-full bg-accent opacity-0 transition-opacity group-hover:opacity-100"></span>
-                </div>
-                <div>
-                  <h3 class="font-display leading-[1.05] tracking-tight text-[clamp(1.5rem,3vw,2.25rem)]">Estrutura digital e presença</h3>
-                  <p class="mt-6 max-w-md text-sm leading-relaxed text-muted-foreground md:text-base">
-                    Organização da marca no ambiente digital. Do visual ao comportamento.
-                  </p>
-                </div>
-              </article>
-
-              <div class="w-2 shrink-0"></div>
-            </div>
-
-            <div class="mx-auto mt-6 flex max-w-[1600px] items-center gap-4 px-6 md:px-12">
-              <button
-                type="button"
-                aria-label="Anterior"
-                data-hscroll-prev
-                class="flex h-10 w-10 items-center justify-center border border-border-strong text-foreground transition-all hover:border-accent hover:text-accent disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-border-strong disabled:hover:text-foreground"
-              >
-                ←
-              </button>
-              <button
-                type="button"
-                aria-label="Próximo"
-                data-hscroll-next
-                class="flex h-10 w-10 items-center justify-center border border-border-strong text-foreground transition-all hover:border-accent hover:text-accent disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-border-strong disabled:hover:text-foreground"
-              >
-                →
-              </button>
-              <span class="ml-2 text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground">Arraste ou use as setas</span>
-              <span class="h-px flex-1 bg-border-strong"></span>
-            </div>
-          </div>
-        </section>
-
-        <section class="border-t border-border py-20 md:py-32">
-          <div class="mx-auto max-w-[1600px] px-6 md:px-12">
-            <div class="grid gap-8 md:grid-cols-12 md:gap-12">
-              <div class="md:col-span-3">
-                <p class="label-eyebrow">— Princípio</p>
-              </div>
-              <div class="reveal md:col-span-9">
-                <h2 class="font-display leading-[0.95] tracking-tight text-[clamp(2rem,5vw,4.25rem)]">
-                  Direção antes<br />
-                  de estética.
-                </h2>
-                <div class="mt-10 grid gap-8 md:mt-14 md:grid-cols-2 md:gap-12">
-                  <p class="text-base leading-relaxed text-muted-foreground md:text-lg">
-                    Design sem direção vira só aparência.<br />
-                    Estratégia sem forma não se sustenta.
-                  </p>
-                  <p class="text-base leading-relaxed text-foreground md:text-lg">
-                    Cada projeto parte de leitura, contexto e intenção.
-                    A estética vem depois — <span class="text-accent">como consequência.</span>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="border-t border-border bg-surface py-20 md:py-32">
-          <div class="mx-auto max-w-[1600px] px-6 md:px-12">
-            <div class="grid gap-6 md:grid-cols-12">
-              <p class="label-eyebrow md:col-span-3">— Estrutura</p>
-              <h2 class="reveal md:col-span-9 font-display leading-[0.95] tracking-tight text-[clamp(2rem,5vw,4.25rem)]">
-                Como cada<br />projeto se constrói.
-              </h2>
-            </div>
-
-            <ol class="mt-12 divide-y divide-border-strong border-y border-border-strong md:mt-16">
-              <li class="reveal group grid grid-cols-12 items-baseline gap-4 py-6 transition-colors hover:bg-background md:gap-6 md:py-8">
-                <span class="col-span-2 font-display text-sm text-muted-foreground md:col-span-1 md:text-xl">01</span>
-                <h3 class="col-span-10 font-display tracking-tight text-xl md:col-span-4 md:text-3xl">Leitura</h3>
-                <p class="col-span-12 max-w-md text-sm text-muted-foreground md:col-span-6 md:col-start-7 md:text-base">
-                  Contexto, mercado, percepção atual e objetivo real.
-                </p>
-              </li>
-              <li class="reveal group grid grid-cols-12 items-baseline gap-4 py-6 transition-colors hover:bg-background md:gap-6 md:py-8">
-                <span class="col-span-2 font-display text-sm text-muted-foreground md:col-span-1 md:text-xl">02</span>
-                <h3 class="col-span-10 font-display tracking-tight text-xl md:col-span-4 md:text-3xl">Direção</h3>
-                <p class="col-span-12 max-w-md text-sm text-muted-foreground md:col-span-6 md:col-start-7 md:text-base">
-                  Definição de linguagem, posicionamento e intenção.
-                </p>
-              </li>
-              <li class="reveal group grid grid-cols-12 items-baseline gap-4 py-6 transition-colors hover:bg-background md:gap-6 md:py-8">
-                <span class="col-span-2 font-display text-sm text-muted-foreground md:col-span-1 md:text-xl">03</span>
-                <h3 class="col-span-10 font-display tracking-tight text-xl md:col-span-4 md:text-3xl">Construção</h3>
-                <p class="col-span-12 max-w-md text-sm text-muted-foreground md:col-span-6 md:col-start-7 md:text-base">
-                  Visual, estrutura e desenvolvimento.
-                </p>
-              </li>
-              <li class="reveal group grid grid-cols-12 items-baseline gap-4 py-6 transition-colors hover:bg-background md:gap-6 md:py-8">
-                <span class="col-span-2 font-display text-sm text-muted-foreground md:col-span-1 md:text-xl">04</span>
-                <h3 class="col-span-10 font-display tracking-tight text-xl md:col-span-4 md:text-3xl">Refinamento</h3>
-                <p class="col-span-12 max-w-md text-sm text-muted-foreground md:col-span-6 md:col-start-7 md:text-base">
-                  Ajuste fino, coerência e consistência.
-                </p>
-              </li>
-              <li class="reveal group grid grid-cols-12 items-baseline gap-4 py-6 transition-colors hover:bg-background md:gap-6 md:py-8">
-                <span class="col-span-2 font-display text-sm text-muted-foreground md:col-span-1 md:text-xl">05</span>
-                <h3 class="col-span-10 font-display tracking-tight text-xl md:col-span-4 md:text-3xl">Aplicação</h3>
-                <p class="col-span-12 max-w-md text-sm text-muted-foreground md:col-span-6 md:col-start-7 md:text-base">
-                  Entrega pensada para uso real, não só apresentação.
-                </p>
-              </li>
-            </ol>
-          </div>
-        </section>
-
-        <section class="border-t border-border py-20 md:py-32">
-          <div class="mx-auto max-w-[1600px] px-6 md:px-12">
-            <div class="grid gap-6 md:grid-cols-12">
-              <p class="label-eyebrow md:col-span-3">— Recortes</p>
-              <div class="md:col-span-9">
-                <h2 class="reveal font-display leading-[0.95] tracking-tight text-[clamp(2rem,5vw,4.25rem)]">
-                  Projetos com<br />intenção visível.
-                </h2>
-                <p class="reveal mt-6 max-w-xl text-muted-foreground md:text-lg">
-                  Marcas, páginas e estruturas construídas com foco em clareza,
-                  percepção e posicionamento.
-                </p>
+              <div class="mini-grade">
+                <i></i><i></i><i></i><i></i><i></i><i></i>
               </div>
             </div>
 
-            <div class="mt-24 grid gap-10 md:mt-40 md:grid-cols-3 md:gap-12">
-              <a href="./projetos.html" class="reveal group card-neo relative flex aspect-[4/5] flex-col justify-between overflow-hidden border border-border bg-surface p-10 md:p-12">
-                <div class="relative flex items-center justify-between">
-                  <span class="label-eyebrow">Saúde · Premium</span>
-                  <span class="text-accent opacity-0 transition-opacity group-hover:opacity-100">→</span>
-                </div>
-                <div class="relative">
-                  <h3 class="font-display text-xl leading-tight tracking-tight md:text-2xl">Clínica Odontológica — Reestruturação</h3>
-                  <p class="mt-5 text-sm text-muted-foreground">Direção visual e página desenvolvidas para elevar percepção de valor e reforçar posicionamento premium.</p>
-                </div>
-              </a>
-
-              <a href="./projetos.html" class="reveal group card-neo relative flex aspect-[4/5] flex-col justify-between overflow-hidden border border-border bg-surface p-10 md:p-12">
-                <div class="relative flex items-center justify-between">
-                  <span class="label-eyebrow">Sistema Web</span>
-                  <span class="text-accent opacity-0 transition-opacity group-hover:opacity-100">→</span>
-                </div>
-                <div class="relative">
-                  <h3 class="font-display text-xl leading-tight tracking-tight md:text-2xl">Interface e estrutura</h3>
-                  <p class="mt-5 text-sm text-muted-foreground">Organização visual e experiência voltadas para clareza, uso contínuo e escalabilidade.</p>
-                </div>
-              </a>
-
-              <a href="./projetos.html" class="reveal group card-neo relative flex aspect-[4/5] flex-col justify-between overflow-hidden border border-border bg-surface p-10 md:p-12">
-                <div class="relative flex items-center justify-between">
-                  <span class="label-eyebrow">Marca</span>
-                  <span class="text-accent opacity-0 transition-opacity group-hover:opacity-100">→</span>
-                </div>
-                <div class="relative">
-                  <h3 class="font-display text-xl leading-tight tracking-tight md:text-2xl">Identidade aplicada</h3>
-                  <p class="mt-5 text-sm text-muted-foreground">Sistema visual completo, do logotipo à presença digital — uma linguagem só.</p>
-                </div>
-              </a>
-            </div>
-
-            <div class="mt-10 flex justify-end">
-              <a href="./projetos.html" class="link-underline label-eyebrow">Ver todos os recortes →</a>
-            </div>
-          </div>
-        </section>
-      </main>
-
-      <footer class="border-t border-border bg-background">
-        <div class="mx-auto max-w-[1600px] px-6 py-16 md:px-12 md:py-20">
-          <div class="grid gap-12 md:grid-cols-12">
-            <div class="md:col-span-6">
-              <p class="label-eyebrow">Ponto de partida</p>
-              <h3 class="mt-6 font-display leading-[0.98] tracking-tight text-[clamp(1.75rem,4vw,3.25rem)]">
-                Alguns projetos não começam<br />
-                no layout. Começam<br />
-                <span class="text-muted-foreground">na forma como são pensados.</span>
-              </h3>
-              <a
-                href="./contato.html"
-                class="mt-8 inline-flex items-center gap-3 border-b border-foreground pb-1 font-display text-base md:text-lg"
-              >
-                Abrir conversa
-                <span class="text-accent">→</span>
-              </a>
-            </div>
-
-            <div class="md:col-span-3 md:col-start-9">
-              <p class="label-eyebrow">Navegação</p>
-              <ul class="mt-6 space-y-3 text-sm">
-                <li><a href="./index.html" class="link-underline">Início</a></li>
-                <li><a href="./dinamica.html" class="link-underline">Dinamica</a></li>
-                <li><a href="./projetos.html" class="link-underline">Projetos</a></li>
-                <li><a href="./contato.html" class="link-underline">Contato</a></li>
-              </ul>
-            </div>
-
-            <div class="md:col-span-3">
-              <p class="label-eyebrow">Direto</p>
-              <ul class="mt-6 space-y-3 text-sm">
-                <li><span class="text-muted-foreground">WhatsApp</span></li>
-                <li><span class="text-muted-foreground">Instagram</span></li>
-                <li><span class="text-muted-foreground">Email</span></li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="mt-20 flex flex-col items-start justify-between gap-6 border-t border-border pt-8 text-xs text-muted-foreground md:flex-row md:items-end">
-            <img src="./assets/dinamica-logo.png" alt="Dinamica" class="h-10 w-auto opacity-90" />
-            <div class="flex flex-col gap-2 md:items-end">
-              <p>© <span id="year"></span> Dinamica — Estudio de direção visual E DESIGN.</p>
-              <p class="flex items-center gap-2">
-                <span class="h-1 w-1 rounded-full bg-accent"></span>
-                Construído com intenção.
-              </p>
+            <div class="info-rodape">
+              <span>design · estratégia · tech</span>
+              <span class="ponto-rosa-grande">●</span>
             </div>
           </div>
         </div>
-      </footer>
-    </div>
+      </div>
+    </section>
 
-    <script>
-      document.getElementById("year").textContent = String(new Date().getFullYear());
-    </script>
-  </body>
+    <!-- =====================================================
+         SOLUÇÕES
+         ===================================================== -->
+    <section id="solucoes" class="secao sem-borda">
+      <div class="secao-conteudo">
+        <div class="cabecalho-secao">
+          <span class="eyebrow"><span class="ponto"></span>Soluções</span>
+          <h2 class="titulo-secao">
+            Soluções para sua empresa <br />
+            crescer <span class="fonte-serif-italica texto-rosa">com estratégia</span>
+          </h2>
+          <p class="descricao-secao">
+            A Agência Dinâmica une design, tecnologia e estratégia para criar soluções digitais que fortalecem sua marca e aproximam sua empresa dos clientes certos.
+          </p>
+        </div>
+
+        <div class="grid-solucoes">
+          <!-- Card 01 -->
+          <article class="card-brilho card-solucao">
+            <div class="topo">
+              <div class="icone">
+                <!-- Ícone: paleta -->
+                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/>
+                  <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>
+                </svg>
+              </div>
+              <span class="tag">01</span>
+            </div>
+            <h3>Design profissional</h3>
+            <p>Criação de artes profissionais para redes sociais, campanhas, anúncios, posts, stories, materiais digitais e comunicação visual para empresas que querem parecer mais fortes e profissionais no digital.</p>
+          </article>
+
+          <!-- Card 02 -->
+          <article class="card-brilho card-solucao">
+            <div class="topo">
+              <div class="icone">
+                <!-- Ícone: monitor + smartphone -->
+                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="2" y="3" width="14" height="10" rx="2"/>
+                  <rect x="15" y="10" width="7" height="11" rx="1"/>
+                  <path d="M9 17H7a2 2 0 0 1-2-2v-2"/>
+                </svg>
+              </div>
+              <span class="tag">02</span>
+            </div>
+            <h3>Sites modernos</h3>
+            <p>Desenvolvimento de sites institucionais, landing pages e páginas comerciais modernas, responsivas e pensadas para gerar confiança, autoridade e contatos qualificados.</p>
+          </article>
+
+          <!-- Card 03 -->
+          <article class="card-brilho card-solucao">
+            <div class="topo">
+              <div class="icone">
+                <!-- Ícone: alvo -->
+                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
+                </svg>
+              </div>
+              <span class="tag">03</span>
+            </div>
+            <h3>Tráfego pago</h3>
+            <p>Criação de campanhas estratégicas para atrair as pessoas certas, fortalecer a presença digital da empresa e direcionar potenciais clientes para o WhatsApp, site ou página de venda.</p>
+          </article>
+
+          <!-- Card 04 -->
+          <article class="card-brilho card-solucao">
+            <div class="topo">
+              <div class="icone">
+                <!-- Ícone: servidor -->
+                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="2" y="2" width="20" height="8" rx="2"/>
+                  <rect x="2" y="14" width="20" height="8" rx="2"/>
+                  <line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/>
+                </svg>
+              </div>
+              <span class="tag">04</span>
+            </div>
+            <h3>Sistemas web personalizados</h3>
+            <p>Desenvolvimento de sistemas sob medida para organizar processos, cadastros, atendimentos, agendamentos, controles internos e rotinas específicas de cada empresa.</p>
+          </article>
+
+          <!-- Card 05 -->
+          <article class="card-brilho card-solucao">
+            <div class="topo">
+              <div class="icone">
+                <!-- Ícone: bot -->
+                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="3" y="11" width="18" height="10" rx="2"/>
+                  <circle cx="12" cy="5" r="2"/><path d="M12 7v4"/>
+                  <line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/>
+                </svg>
+              </div>
+              <span class="tag">05</span>
+            </div>
+            <h3>Automações com IA</h3>
+            <p>Criação de soluções com inteligência artificial e automações para reduzir tarefas manuais, melhorar produtividade e tornar processos mais rápidos e inteligentes.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         PROJETOS
+         ===================================================== -->
+    <section id="projetos" class="secao">
+      <div class="secao-conteudo">
+        <div class="projetos-cabecalho">
+          <div class="cabecalho-secao">
+            <span class="eyebrow"><span class="ponto"></span>Projetos</span>
+            <h2 class="titulo-secao">
+              Sites já desenvolvidos <br />
+              pela <span class="fonte-serif-italica texto-rosa">Dinâmica</span>
+            </h2>
+            <p class="descricao-secao">
+              Cada projeto é criado pensando em estética, performance e conversão. Veja prévias reais de sites entregues.
+            </p>
+          </div>
+          <span class="vitrine-label">/ vitrine_real</span>
+        </div>
+
+        <div class="grid-projetos" id="grid-projetos">
+          <!-- Cards de projeto são injetados via JS para evitar repetição -->
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         ARTES
+         ===================================================== -->
+    <section id="artes" class="secao" style="display: none;">
+      <div class="secao-conteudo">
+        <div class="cabecalho-secao">
+          <span class="eyebrow"><span class="ponto"></span>Artes &amp; criativos</span>
+          <h2 class="titulo-secao">
+            Artes que <span class="fonte-serif-italica texto-rosa">fortalecem</span> marcas
+          </h2>
+          <p class="descricao-secao">
+            Criamos peças visuais para redes sociais, campanhas e anúncios com foco em impacto, clareza e posicionamento profissional.
+          </p>
+        </div>
+        <div class="grid-artes" id="grid-artes">
+          <!-- Cards de arte injetados via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         SOBRE
+         ===================================================== -->
+    <section id="sobre" class="secao">
+      <div class="secao-conteudo grid-sobre">
+        <div>
+          <div class="cabecalho-secao">
+            <span class="eyebrow"><span class="ponto"></span>Sobre</span>
+            <h2 class="titulo-secao">
+              Design, estratégia <br />
+              e tecnologia <span class="fonte-serif-italica texto-rosa">para crescer</span>
+            </h2>
+          </div>
+          <div class="sobre-texto">
+            <p>A Agência Dinâmica nasceu para ajudar empresas a se posicionarem melhor no digital através de soluções criativas, estratégicas e tecnológicas.</p>
+            <p>Unimos design profissional, criação de sites, tráfego pago, sistemas personalizados e automações com IA para criar uma presença digital mais forte, bonita, funcional e preparada para gerar mais oportunidades.</p>
+            <p>Cada projeto é pensado para transmitir profissionalismo, gerar percepção de valor e ajudar sua empresa a se destacar no mercado.</p>
+          </div>
+          <blockquote class="citacao">
+            <p>
+              Aqui, design não é só estética. <br />
+              É <span class="fonte-serif-italica texto-rosa">posicionamento</span>, estratégia e presença digital.
+            </p>
+          </blockquote>
+        </div>
+
+        <div>
+          <div class="card-brilho card-diferenciais">
+            <div class="topo-card">
+              <span class="label">Diferenciais</span>
+              <span class="num">/08</span>
+            </div>
+            <h3>Por que escolher a <br /><span class="texto-rosa">Agência Dinâmica?</span></h3>
+            <ul class="lista-diferenciais" id="lista-diferenciais">
+              <!-- Itens injetados via JS -->
+            </ul>
+            <p class="rodape-texto">
+              Antes de criar qualquer projeto, entendemos o objetivo, o público, o posicionamento e o resultado que a marca deseja alcançar.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         PROCESSO
+         ===================================================== -->
+    <section class="secao">
+      <div class="secao-conteudo">
+        <div class="cabecalho-secao">
+          <span class="eyebrow"><span class="ponto"></span>Processo</span>
+          <h2 class="titulo-secao">
+            Como funciona o <span class="fonte-serif-italica texto-rosa">desenvolvimento</span>
+          </h2>
+          <p class="descricao-secao">Um fluxo claro do briefing à entrega, com proximidade em cada etapa.</p>
+        </div>
+
+        <div class="grid-processo">
+          <div class="linha-processo" aria-hidden="true"></div>
+          <div class="cards-processo" id="cards-processo">
+            <!-- Cards de passos injetados via JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         CTA FINAL
+         ===================================================== -->
+    <section id="contato">
+      <div class="cta-wrap">
+        <div class="cta-box">
+          <div class="brilho" aria-hidden="true"></div>
+          <span class="marca-canto tl" aria-hidden="true"></span>
+          <span class="marca-canto tr" aria-hidden="true"></span>
+          <span class="marca-canto bl" aria-hidden="true"></span>
+          <span class="marca-canto br" aria-hidden="true"></span>
+
+          <span class="cta-eyebrow"><span class="pulso"></span>Vamos conversar</span>
+          <h2>
+            Pronto para posicionar sua marca <br />
+            com visual forte e <span class="fonte-serif-italica texto-rosa">estratégia</span>?
+          </h2>
+          <p class="lead">
+            Se você quer melhorar a presença digital da sua empresa, criar um site profissional, investir em tráfego pago ou desenvolver um sistema personalizado, fale com a Agência Dinâmica.
+          </p>
+          <div class="cta-acoes">
+            <a class="botao-animado" href="https://wa.me/5518900000000" target="_blank" rel="noreferrer">
+              <svg class="seta seta-1" viewBox="0 0 24 24" aria-hidden="true"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"/></svg>
+              <span class="texto">Chamar no WhatsApp</span>
+              <svg class="seta seta-2" viewBox="0 0 24 24" aria-hidden="true"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"/></svg>
+              <span class="circulo"></span>
+            </a>
+            <a class="link-instagram" href="https://instagram.com/mktdinamica" target="_blank" rel="noreferrer">ou siga @mktdinamica</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =====================================================
+       RODAPÉ
+       ===================================================== -->
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <a href="#inicio" class="logo">
+          <span class="logo-marca">A</span>
+          <span>Dinâmica</span>
+        </a>
+        <p>Design, Tráfego Pago, Sites, Sistemas Web e Automações com IA.</p>
+      </div>
+      <div>
+        <div class="footer-label">Navegar</div>
+        <div class="footer-links">
+          <a href="#inicio">Início</a>
+          <a href="#solucoes">Soluções</a>
+          <a href="#projetos">Projetos</a>
+          <a href="#artes">Artes</a>
+          <a href="#sobre">Sobre</a>
+          <a href="#contato">Contato</a>
+        </div>
+      </div>
+      <div class="footer-contato">
+        <div class="footer-label">Contato</div>
+        <a href="https://instagram.com/mktdinamica" target="_blank" rel="noreferrer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+          </svg>
+          @mktdinamica
+        </a>
+        <a href="https://wa.me/5518900000000" target="_blank" rel="noreferrer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+          </svg>
+          (18) 90000-0000
+        </a>
+      </div>
+    </div>
+    <div class="footer-base">
+      <span>© <span id="ano"></span> Agência Dinâmica. Todos os direitos reservados.</span>
+      <span class="fonte-serif-italica" style="color: oklch(0.97 0.005 285 / 0.8); text-transform: none;">
+        Design estratégico para empresas que querem crescer.
+      </span>
+    </div>
+  </footer>
+
+  <!-- =====================================================
+       SCRIPTS
+       ===================================================== -->
+  <script>
+    // ------ Atualiza o ano atual no rodapé ------
+    document.getElementById('ano').textContent = new Date().getFullYear();
+
+    // ------ Efeito de scroll na navbar ------
+    const navbar = document.getElementById('navbar');
+    const aoRolar = () => {
+      if (window.scrollY > 20) navbar.classList.add('rolado');
+      else navbar.classList.remove('rolado');
+    };
+    aoRolar();
+    window.addEventListener('scroll', aoRolar, { passive: true });
+
+    // ------ Menu mobile (abrir/fechar) ------
+    const btnMenu = document.getElementById('btn-menu');
+    const menuMobile = document.getElementById('menu-mobile');
+    const iconeMenu = document.getElementById('icone-menu');
+    const SVG_MENU = '<line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/>';
+    const SVG_FECHAR = '<line x1="6" y1="6" x2="18" y2="18"/><line x1="6" y1="18" x2="18" y2="6"/>';
+
+    btnMenu.addEventListener('click', () => {
+      const aberto = menuMobile.classList.toggle('aberto');
+      btnMenu.setAttribute('aria-expanded', String(aberto));
+      iconeMenu.innerHTML = aberto ? SVG_FECHAR : SVG_MENU;
+    });
+    // Fecha o menu ao clicar em qualquer link interno
+    menuMobile.querySelectorAll('a').forEach((a) => {
+      a.addEventListener('click', () => {
+        menuMobile.classList.remove('aberto');
+        btnMenu.setAttribute('aria-expanded', 'false');
+        iconeMenu.innerHTML = SVG_MENU;
+      });
+    });
+
+    // ------ Dados dos projetos ------
+    const projetos = [
+      {
+        nome: 'Dr. Gabriel Reis',
+        descricao: 'Site institucional médico com foco em autoridade, agendamento e conversão.',
+        tipo: 'Site institucional',
+        link: 'https://www.drgabrielreis.com',
+      },
+      {
+        nome: 'Novo Fio Moema',
+        descricao: 'Site de salão de beleza com identidade premium e captação via WhatsApp.',
+        tipo: 'Site institucional',
+        link: 'https://www.novofiomoema.com.br',
+      },
+      {
+        nome: 'Digital Booster',
+        descricao: 'Landing page de agência de performance digital com foco em geração de leads.',
+        tipo: 'Landing page',
+        link: 'https://digitalbooster-phi.vercel.app/',
+      },
+      {
+        nome: 'Layla Lacerda',
+        descricao: 'Site pessoal com identidade visual marcante e estrutura moderna.',
+        tipo: 'Site institucional',
+        link: 'https://laylalacerda.vercel.app/',
+      },
+    ];
+
+    // Gera URL de preview do site via API microlink (screenshot real)
+    const urlPreview = (link) =>
+      `https://api.microlink.io/?url=${encodeURIComponent(link)}&screenshot=true&meta=false&embed=screenshot.url&viewport.width=1440&viewport.height=900&waitUntil=networkidle0`;
+
+    // Helper para sanitizar URLs exibidas
+    const limparUrl = (link) => link.replace(/^https?:\/\//, '');
+
+    const gridProjetos = document.getElementById('grid-projetos');
+    projetos.forEach((p, i) => {
+      const total = projetos.length;
+      const indice = String(i + 1).padStart(2, '0');
+      const totalStr = String(total).padStart(2, '0');
+      const article = document.createElement('article');
+      article.className = 'card-brilho card-projeto';
+      article.innerHTML = `
+        <div class="preview-wrap">
+          <div class="barra-navegador">
+            <span class="ponto"></span><span class="ponto"></span><span class="ponto"></span>
+            <span class="url">${limparUrl(p.link)}</span>
+          </div>
+          <img src="${urlPreview(p.link)}" alt="Preview do site ${p.nome}" loading="lazy" />
+        </div>
+        <div class="corpo">
+          <div class="meta">
+            <span class="tipo">${p.tipo}</span>
+            <span class="contador">${indice} / ${totalStr}</span>
+          </div>
+          <h3>${p.nome}</h3>
+          <p class="desc">${p.descricao}</p>
+          <a class="link-rosa" href="${p.link}" target="_blank" rel="noreferrer">
+            Acessar site
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/>
+            </svg>
+          </a>
+        </div>`;
+      gridProjetos.appendChild(article);
+    });
+
+    // ------ Dados das artes (placeholders) ------
+    const artes = [
+      { titulo: '[INSERIR TÍTULO]', categoria: 'Post',     aspecto: 'quadrado' },
+      { titulo: '[INSERIR TÍTULO]', categoria: 'Criativo', aspecto: 'retrato'  },
+      { titulo: '[INSERIR TÍTULO]', categoria: 'Story',    aspecto: 'retrato'  },
+      { titulo: '[INSERIR TÍTULO]', categoria: 'Campanha', aspecto: 'quadrado' },
+      { titulo: '[INSERIR TÍTULO]', categoria: 'Anúncio',  aspecto: 'retrato'  },
+      { titulo: '[INSERIR TÍTULO]', categoria: 'Post',     aspecto: 'quadrado' },
+    ];
+    const gridArtes = document.getElementById('grid-artes');
+    artes.forEach((a) => {
+      const art = document.createElement('article');
+      art.className = `card-brilho card-arte ${a.aspecto}`;
+      art.innerHTML = `
+        <div class="placeholder-arte">
+          <div class="conteudo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/>
+            </svg>
+            <span>[INSERIR ARTE]</span>
+          </div>
+        </div>
+        <span class="marca-canto tl" aria-hidden="true"></span>
+        <div class="overlay">
+          <span class="categoria">${a.categoria}</span>
+          <div class="titulo-arte">${a.titulo}</div>
+        </div>`;
+      gridArtes.appendChild(art);
+    });
+
+    // ------ Lista de diferenciais ------
+    const diferenciais = [
+      'Design moderno e profissional',
+      'Estratégia alinhada ao objetivo do negócio',
+      'Sites responsivos e bem estruturados',
+      'Previews reais de projetos desenvolvidos',
+      'Criativos pensados para impacto e conversão',
+      'Sistemas personalizados conforme a empresa',
+      'Automações com IA para otimizar processos',
+      'Atendimento próximo durante o desenvolvimento',
+    ];
+    const listaDif = document.getElementById('lista-diferenciais');
+    diferenciais.forEach((d) => {
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <span class="check">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </span>
+        <span>${d}</span>`;
+      listaDif.appendChild(li);
+    });
+
+    // ------ Passos do processo ------
+    const passos = [
+      { n: '01', titulo: 'Entendimento', texto: 'Entendemos sua empresa, seu público, seus serviços, seu objetivo e suas referências visuais.' },
+      { n: '02', titulo: 'Estratégia',   texto: 'Organizamos a estrutura, a comunicação, as seções e a direção visual do projeto.' },
+      { n: '03', titulo: 'Criação',      texto: 'Criamos o design, o site, a campanha, o sistema ou a solução digital com foco em estética, funcionalidade e resultado.' },
+      { n: '04', titulo: 'Ajustes',      texto: 'Apresentamos o projeto, coletamos feedbacks e realizamos os ajustes necessários.' },
+      { n: '05', titulo: 'Entrega',      texto: 'Entregamos o projeto pronto para uso, com visual profissional e estrutura bem organizada.' },
+    ];
+    const cardsProcesso = document.getElementById('cards-processo');
+    passos.forEach((p) => {
+      const div = document.createElement('div');
+      div.className = 'card-brilho card-passo';
+      div.innerHTML = `
+        <div class="topo-passo">
+          <span class="num-passo">${p.n}</span>
+          <span class="traco"></span>
+        </div>
+        <h3>${p.titulo}</h3>
+        <p>${p.texto}</p>`;
+      cardsProcesso.appendChild(div);
+    });
+  </script>
+</body>
 </html>
