@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Visual de Autoridade — Agência Dinâmica</title>
+  <meta name="description" content="Crie suas próprias artes e vídeos para Instagram com aparência profissional usando apps gratuitos. Do zero ao visual profissional." />
+  <meta property="og:title" content="Visual de Autoridade — Agência Dinâmica" />
+  <meta property="og:description" content="Aprenda a criar artes e vídeos para Instagram usando apps gratuitos, sem depender de social media." />
+
+  <!-- Fontes Google: Sora (títulos), Inter (corpo), Montserrat (botões) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================
+       VARIÁVEIS DE DESIGN (cores, fontes, sombras)
+       ============================================ */
+    :root {
+      --bg: #08080A;
+      --card-bg: #141417;
+      --graphite: #141417;
+      --logo-surface: #232323;
+      --brand: #E3212D;
+      --brand-dark: #7A0F16;
+      --text: #ffffff;
+      --muted: rgba(255,255,255,0.66);
+      --border: rgba(255,255,255,0.06);
+      --gradient-brand: linear-gradient(135deg, #E3212D, #7A0F16);
+      --font-display: "Sora", system-ui, sans-serif;
+      --font-body: "Inter", system-ui, sans-serif;
+      --font-button: "Montserrat", system-ui, sans-serif;
+    }
+
+    /* ============================================
+       RESET BÁSICO
+       ============================================ */
+    * { box-sizing: border-box; margin: 0; padding: 0; border-color: var(--border); }
+    html, body { overflow-x: hidden; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.5;
+      background-image:
+        radial-gradient(800px 500px at 80% -10%, rgba(227,33,45,0.18), transparent 60%),
+        radial-gradient(700px 500px at -10% 30%, rgba(122,15,22,0.16), transparent 60%);
+      background-attachment: fixed;
+    }
+    h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.02em; line-height: 1.1; }
+    a { color: inherit; text-decoration: none; }
+    img, video { display: block; max-width: 100%; }
+    ul { list-style: none; }
+    button { background: none; border: 0; color: inherit; cursor: pointer; font: inherit; }
+
+    /* ============================================
+       UTILITÁRIOS DE LAYOUT
+       ============================================ */
+    .container-narrow {
+      width: 100%;
+      max-width: 1180px;
+      margin-inline: auto;
+      padding-inline: 18px;
+    }
+    @media (min-width: 640px) { .container-narrow { padding-inline: 24px; } }
+
+    .section-pad { padding-top: 56px; padding-bottom: 56px; }
+    @media (min-width: 768px) { .section-pad { padding-top: 96px; padding-bottom: 96px; } }
+
+    .text-brand { color: var(--brand); }
+    .muted { color: var(--muted); }
+
+    /* Cartão "glass" usado em várias seções */
+    .glass-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)), #141417;
+      border: 1px solid rgba(227, 33, 45, 0.14);
+      border-radius: 18px;
+      transition: border-color .3s ease, transform .3s ease, box-shadow .3s ease;
+    }
+    .glass-card:hover {
+      border-color: rgba(227, 33, 45, 0.55);
+      box-shadow: 0 20px 50px -20px rgba(227,33,45,0.45);
+      transform: translateY(-4px);
+    }
+
+    /* Pequena etiqueta acima dos títulos de seção */
+    .section-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 12px; text-transform: uppercase; letter-spacing: 0.22em;
+      color: var(--muted);
+    }
+    .section-eyebrow::before {
+      content: ""; height: 1px; width: 32px; background: var(--brand);
+    }
+    .section-eyebrow.center { margin: 0 auto; }
+
+    /* ============================================
+       BOTÃO PATHFINDER (borda luminosa giratória)
+       ============================================ */
+    @property --angle {
+      syntax: "<angle>";
+      inherits: false;
+      initial-value: 0deg;
+    }
+    .pathfinder-button {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 360px;
+      min-height: 58px;
+      padding: 16px 24px;
+      border: 0;
+      border-radius: 999px;
+      color: #ffffff;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.02)),
+        linear-gradient(135deg, #E3212D, #7A0F16);
+      font-family: var(--font-button);
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      text-align: center;
+      cursor: pointer;
+      isolation: isolate;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.10) inset,
+        0 18px 45px rgba(227, 33, 45, 0.28);
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    @media (min-width: 640px) {
+      .pathfinder-button { width: auto; min-width: 280px; font-size: 15px; min-height: 64px; padding: 0 34px; }
+    }
+    .pathfinder-button:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.14) inset,
+        0 24px 60px rgba(227, 33, 45, 0.38);
+    }
+    /* Borda Pathfinder — gradiente cônico animado */
+    .pathfinder-button::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      padding: 2px;
+      border-radius: inherit;
+      background: conic-gradient(
+        from var(--angle),
+        transparent 0deg,
+        transparent 80deg,
+        rgba(255,255,255,0.95) 110deg,
+        #E3212D 145deg,
+        transparent 190deg,
+        transparent 360deg
+      );
+      -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+              mask-composite: exclude;
+      animation: pathfinder 2.2s linear infinite;
+      z-index: -1;
+    }
+    /* Brilho diagonal que cruza o botão */
+    .pathfinder-button::after {
+      content: "";
+      position: absolute;
+      width: 90px;
+      height: 100%;
+      left: -120px;
+      top: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.28), transparent);
+      transform: skewX(-20deg);
+      animation: shine 3.2s ease-in-out infinite;
+    }
+    .pathfinder-button span { position: relative; z-index: 1; text-shadow: 0 1px 12px rgba(0,0,0,.25); }
+    @keyframes pathfinder { to { --angle: 360deg; } }
+    @keyframes shine {
+      0%, 45% { left: -120px; }
+      65%, 100% { left: calc(100% + 120px); }
+    }
+
+    /* Variante compacta usada no header */
+    .pathfinder-button.compact {
+      width: auto; min-width: 0; min-height: 44px; padding: 0 18px; font-size: 12px;
+    }
+
+    /* ============================================
+       LOGO (com superfície escura embaixo)
+       ============================================ */
+    .logo-badge {
+      display: inline-flex; align-items: center; justify-content: center;
+      background-color: var(--logo-surface);
+      border-radius: 10px;
+      padding: 12px 20px;
+    }
+    .logo-badge img { height: 28px; width: auto; }
+
+    /* ============================================
+       HEADER
+       ============================================ */
+    .site-header {
+      position: sticky; top: 0; z-index: 50;
+      background-color: rgba(8,8,10,0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .header-inner {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding-top: 12px; padding-bottom: 12px;
+    }
+    @media (min-width: 640px) {
+      .header-inner { padding-top: 16px; padding-bottom: 16px; }
+    }
+    .header-nav { display: none; gap: 32px; font-size: 14px; color: var(--muted); }
+    .header-nav a:hover { color: #fff; transition: color .2s; }
+    @media (min-width: 768px) { .header-nav { display: flex; align-items: center; } }
+
+    /* ============================================
+       HERO
+       ============================================ */
+    .hero { position: relative; overflow: hidden; }
+    .hero::before {
+      content: ""; position: absolute; inset: 0; z-index: -1; opacity: .7;
+      background: radial-gradient(60% 50% at 70% 20%, rgba(227,33,45,0.35), transparent 70%);
+    }
+    .hero-grid {
+      display: grid; grid-template-columns: 1fr; gap: 40px; align-items: center;
+      padding-top: 40px; padding-bottom: 56px;
+    }
+    @media (min-width: 640px) {
+      .hero-grid { padding-top: 64px; padding-bottom: 80px; gap: 40px; }
+    }
+    @media (min-width: 1024px) {
+      .hero-grid { grid-template-columns: 1.05fr 1fr; gap: 56px; padding-top: 96px; padding-bottom: 112px; }
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 10px; text-transform: uppercase; letter-spacing: 0.16em;
+      color: var(--muted);
+      padding: 6px 12px; border-radius: 999px; max-width: 100%;
+      border: 1px solid rgba(227,33,45,0.35);
+      background: rgba(227,33,45,0.06);
+    }
+    @media (min-width: 640px) { .hero-badge { font-size: 12px; letter-spacing: 0.18em; padding: 8px 16px; } }
+    .hero-badge .dot { height: 6px; width: 6px; border-radius: 999px; background: var(--brand); flex-shrink: 0; }
+    .hero-badge .label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .hero h1 {
+      margin-top: 20px; font-weight: 800;
+      font-size: 30px; line-height: 1.06; word-break: break-word;
+    }
+    @media (min-width: 640px) { .hero h1 { margin-top: 28px; font-size: 44px; } }
+    @media (min-width: 1024px) { .hero h1 { font-size: 68px; } }
+
+    .hero p.lead {
+      margin-top: 20px; font-size: 16px; color: var(--muted); max-width: 36rem; line-height: 1.6;
+    }
+    @media (min-width: 640px) { .hero p.lead { font-size: 20px; } }
+    .hero p.lead strong { color: #fff; font-weight: 600; }
+
+    .hero-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; font-size: 12px; }
+    @media (min-width: 640px) { .hero-chips { gap: 12px; margin-top: 32px; font-size: 14px; } }
+    .hero-chips li {
+      padding: 6px 12px; border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    @media (min-width: 640px) { .hero-chips li { padding: 8px 16px; } }
+
+    .hero-cta-row {
+      margin-top: 32px; display: flex; flex-direction: column; gap: 16px;
+    }
+    @media (min-width: 640px) {
+      .hero-cta-row { margin-top: 40px; flex-direction: row; align-items: center; gap: 20px; }
+    }
+    .hero-cta-row .note { font-size: 14px; color: var(--muted); }
+
+    .hero-image-wrap { position: relative; }
+    .hero-image-wrap::before {
+      content: ""; position: absolute; inset: -40px; z-index: -1;
+      filter: blur(60px); opacity: .6;
+      background: radial-gradient(50% 50% at 50% 50%, rgba(227,33,45,0.45), transparent 70%);
+    }
+    .hero-image-wrap img {
+      width: 100%; height: auto; border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 40px 100px -30px rgba(227,33,45,0.45);
+    }
+
+    /* ============================================
+       FAIXA DE PROMESSAS
+       ============================================ */
+    .promise-strip {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: rgba(20,20,23,0.5);
+    }
+    .promise-inner {
+      padding-top: 24px; padding-bottom: 24px;
+      display: flex; flex-wrap: wrap; justify-content: center;
+      column-gap: 40px; row-gap: 12px;
+      font-size: 14px; text-transform: uppercase; letter-spacing: 0.16em; color: var(--muted);
+    }
+    .promise-inner span.item { display: inline-flex; align-items: center; gap: 12px; }
+    .promise-inner .dot { height: 4px; width: 4px; border-radius: 999px; background: var(--brand); }
+
+    /* ============================================
+       TÍTULOS DE SEÇÃO
+       ============================================ */
+    .section-head { max-width: 42rem; }
+    .section-head h2 {
+      margin-top: 12px; font-weight: 700; font-size: 30px;
+    }
+    @media (min-width: 640px) { .section-head h2 { font-size: 36px; } }
+    @media (min-width: 1024px) { .section-head h2 { font-size: 48px; } }
+    .section-head p.sub { margin-top: 20px; font-size: 18px; color: var(--muted); }
+
+    /* ============================================
+       PARA QUEM É (cards)
+       ============================================ */
+    .for-who-grid {
+      margin-top: 48px; display: grid; gap: 20px;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 640px) { .for-who-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1024px) { .for-who-grid { grid-template-columns: repeat(3, 1fr); } }
+    .for-who-card { padding: 24px; display: flex; gap: 16px; }
+    .for-who-card .num {
+      font-family: var(--font-display); font-size: 24px; font-weight: 700; color: var(--brand);
+    }
+    .for-who-card p { color: var(--muted); line-height: 1.6; }
+
+    /* ============================================
+       CARDS DE CURSO (expansíveis)
+       ============================================ */
+    .course-grid {
+      margin-top: 48px; display: grid; gap: 20px; grid-template-columns: 1fr;
+    }
+    @media (min-width: 768px) { .course-grid { grid-template-columns: repeat(2, 1fr); } }
+    .course-card { padding: 24px; text-align: left; width: 100%; }
+    @media (min-width: 640px) { .course-card { padding: 32px; } }
+    .course-card .head {
+      display: flex; justify-content: space-between; align-items: flex-start; gap: 24px;
+    }
+    .course-card .num {
+      font-family: var(--font-display); font-size: 48px; font-weight: 800;
+      color: var(--brand); opacity: .3; transition: opacity .2s;
+    }
+    .course-card:hover .num { opacity: 1; }
+    .course-card .toggle {
+      font-size: 12px; text-transform: uppercase; letter-spacing: 0.16em; color: var(--muted);
+      transition: color .2s;
+    }
+    .course-card:hover .toggle { color: #fff; }
+    .course-card h3 { margin-top: 24px; font-size: 24px; font-weight: 700; }
+    .course-card .short { margin-top: 12px; color: var(--muted); line-height: 1.6; }
+    .course-card .full-wrap {
+      display: grid; grid-template-rows: 0fr; opacity: 0;
+      transition: grid-template-rows .5s ease, opacity .5s ease, margin-top .5s ease;
+    }
+    .course-card.open .full-wrap { grid-template-rows: 1fr; opacity: 1; margin-top: 20px; }
+    .course-card .full-wrap > div { overflow: hidden; }
+    .course-card .full {
+      color: rgba(255,255,255,0.85); line-height: 1.6;
+      padding-top: 16px; border-top: 1px solid rgba(227,33,45,0.25);
+    }
+
+    /* ============================================
+       EXEMPLOS (artes / capas / vídeos)
+       ============================================ */
+    .examples-grid {
+      margin-top: 48px; display: grid; gap: 20px; grid-template-columns: 1fr;
+    }
+    @media (min-width: 768px) { .examples-grid { grid-template-columns: repeat(3, 1fr); } }
+    .example-item {
+      aspect-ratio: 3 / 4; position: relative; overflow: hidden;
+      display: flex; flex-direction: column; justify-content: flex-end;
+    }
+    .example-item img, .example-item video {
+      position: absolute; inset: 0; height: 100%; width: 100%; object-fit: cover;
+    }
+    .example-item .gradient {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(8,8,10,0) 40%, rgba(8,8,10,0.92) 100%);
+    }
+    .example-item .num-badge {
+      position: absolute; top: 16px; right: 16px; z-index: 10;
+      font-size: 12px; padding: 4px 8px; border-radius: 999px;
+      background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.12);
+    }
+    .example-item .label {
+      position: relative; padding: 20px;
+      font-family: var(--font-display); font-weight: 600; font-size: 14px;
+      text-transform: uppercase; letter-spacing: 0.08em;
+    }
+
+    /* ============================================
+       CURRÍCULO (módulos)
+       ============================================ */
+    .modules-grid {
+      margin-top: 48px; display: grid; gap: 12px; grid-template-columns: 1fr;
+    }
+    @media (min-width: 1024px) { .modules-grid { grid-template-columns: repeat(2, 1fr); } }
+    .module-item {
+      display: flex; align-items: center; gap: 20px; padding: 20px;
+      border-radius: 16px; background: var(--graphite);
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .module-num {
+      flex-shrink: 0; height: 48px; width: 48px; display: grid; place-items: center;
+      border-radius: 12px; font-family: var(--font-display); font-weight: 700; font-size: 18px;
+      background: var(--gradient-brand);
+      box-shadow: 0 8px 24px -8px rgba(227,33,45,0.6);
+    }
+    .module-item .label-small {
+      font-size: 12px; text-transform: uppercase; letter-spacing: 0.16em; color: var(--muted);
+    }
+    .module-item .title { margin-top: 4px; font-weight: 600; font-size: 18px; }
+
+    /* ============================================
+       SEÇÃO "POR QUE É DIFERENTE"
+       ============================================ */
+    .different-card { padding: 24px; position: relative; overflow: hidden; }
+    @media (min-width: 640px) { .different-card { padding: 40px; } }
+    @media (min-width: 1024px) { .different-card { padding: 64px; } }
+    .different-card::before {
+      content: ""; position: absolute; top: -128px; right: -128px;
+      height: 320px; width: 320px; border-radius: 999px;
+      background: var(--brand); filter: blur(60px); opacity: .4;
+    }
+    .different-card h2 {
+      margin-top: 12px; font-size: 30px; font-weight: 700; max-width: 48rem;
+    }
+    @media (min-width: 640px) { .different-card h2 { font-size: 36px; } }
+    @media (min-width: 1024px) { .different-card h2 { font-size: 48px; } }
+    .different-card p {
+      margin-top: 24px; font-size: 18px; color: var(--muted); max-width: 48rem; line-height: 1.6;
+    }
+    .different-card p + p { margin-top: 16px; }
+
+    /* ============================================
+       SOBRE (quem oferece)
+       ============================================ */
+    .about-grid {
+      display: grid; grid-template-columns: 1fr; gap: 48px; align-items: center;
+    }
+    @media (min-width: 1024px) { .about-grid { grid-template-columns: 1fr 1.2fr; } }
+    .about-logo-wrap { position: relative; }
+    .about-logo-box {
+      border-radius: 24px; padding: 24px; display: flex; align-items: center; justify-content: center;
+      background: #232323; border: 1px solid rgba(255,255,255,0.06);
+    }
+    @media (min-width: 640px) { .about-logo-box { padding: 40px; } }
+    .about-logo-box img { width: 100%; max-width: 24rem; }
+
+    /* ============================================
+       ANTES E DEPOIS
+       ============================================ */
+    .ba-grid {
+      margin-top: 48px; display: grid; gap: 24px; grid-template-columns: 1fr;
+    }
+    @media (min-width: 768px) { .ba-grid { grid-template-columns: repeat(2, 1fr); } }
+    .ba-before {
+      border-radius: 16px; padding: 24px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    @media (min-width: 640px) { .ba-before { padding: 32px; } }
+    .ba-after {
+      border-radius: 16px; padding: 32px; position: relative; overflow: hidden;
+      background: linear-gradient(180deg, rgba(227,33,45,0.08), rgba(20,20,23,1));
+      border: 1px solid rgba(227,33,45,0.5);
+      box-shadow: 0 30px 80px -30px rgba(227,33,45,0.4);
+    }
+    .ba-after::before {
+      content: ""; position: absolute; top: -80px; right: -80px;
+      height: 192px; width: 192px; border-radius: 999px;
+      background: var(--brand); filter: blur(60px); opacity: .5;
+    }
+    .ba-eyebrow {
+      font-size: 12px; text-transform: uppercase; letter-spacing: 0.16em; color: var(--muted);
+    }
+    .ba-after .ba-eyebrow { color: var(--brand); position: relative; }
+    .ba-title { margin-top: 8px; font-size: 24px; font-weight: 700; position: relative; }
+    .ba-before .ba-title { opacity: .7; }
+    .ba-list { margin-top: 24px; display: flex; flex-direction: column; gap: 12px; position: relative; }
+    .ba-list li { display: flex; align-items: center; gap: 12px; }
+    .ba-before .ba-list li { color: var(--muted); }
+    .ba-icon {
+      height: 20px; width: 20px; display: grid; place-items: center;
+      border-radius: 999px; font-size: 12px;
+    }
+    .ba-before .ba-icon { background: rgba(255,255,255,0.06); }
+    .ba-after .ba-icon { background: var(--gradient-brand); font-weight: 700; }
+
+    /* ============================================
+       OFERTA
+       ============================================ */
+    .offer-card {
+      position: relative; border-radius: 28px; overflow: hidden; padding: 24px; text-align: center;
+      background: linear-gradient(180deg, #141417, #08080A);
+      border: 1px solid rgba(227,33,45,0.35);
+    }
+    @media (min-width: 640px) { .offer-card { padding: 40px; } }
+    @media (min-width: 1024px) { .offer-card { padding: 64px; } }
+    .offer-card::before {
+      content: ""; position: absolute; inset: 0; opacity: .6;
+      background: radial-gradient(60% 50% at 50% 0%, rgba(227,33,45,0.35), transparent 70%);
+    }
+    .offer-inner { position: relative; }
+    .offer-card h2 {
+      margin-top: 16px; font-size: 30px; font-weight: 700; max-width: 48rem; margin-inline: auto;
+    }
+    @media (min-width: 640px) { .offer-card h2 { font-size: 48px; } }
+    @media (min-width: 1024px) { .offer-card h2 { font-size: 60px; } }
+    .offer-card .lead {
+      margin-top: 24px; font-size: 18px; color: var(--muted);
+      max-width: 36rem; margin-inline: auto;
+    }
+    .offer-limited {
+      margin-top: 40px; display: inline-flex; align-items: flex-end; gap: 8px; justify-content: center;
+    }
+    .offer-limited .text { font-size: 14px; color: var(--muted); padding-bottom: 12px; }
+    .offer-price {
+      display: flex; align-items: flex-end; justify-content: center; gap: 8px;
+    }
+    .offer-old {
+      font-size: 24px; padding-bottom: 12px; font-weight: 600; color: var(--muted);
+      text-decoration: line-through; opacity: .6;
+    }
+    .offer-currency { font-size: 24px; padding-bottom: 12px; font-weight: 600; }
+    .offer-amount {
+      font-family: var(--font-display); font-weight: 800; font-size: 68px; line-height: 1;
+      background: var(--gradient-brand);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    @media (min-width: 640px) { .offer-amount { font-size: 88px; } }
+    .offer-bullets {
+      margin-top: 32px; display: flex; flex-wrap: wrap; justify-content: center;
+      column-gap: 32px; row-gap: 12px; font-size: 14px; color: var(--muted);
+    }
+    .offer-cta { margin-top: 40px; }
+
+    /* ============================================
+       FAQ
+       ============================================ */
+    .faq-wrap { max-width: 48rem; margin-inline: auto; padding-inline: 18px; }
+    @media (min-width: 640px) { .faq-wrap { padding-inline: 24px; } }
+    .faq-title {
+      margin-top: 12px; font-size: 30px; font-weight: 700; text-align: center;
+    }
+    @media (min-width: 640px) { .faq-title { font-size: 36px; } }
+    @media (min-width: 1024px) { .faq-title { font-size: 48px; } }
+    .faq-list { margin-top: 48px; display: flex; flex-direction: column; gap: 12px; }
+    .faq-item { width: 100%; text-align: left; padding: 24px; }
+    .faq-item .row {
+      display: flex; align-items: center; justify-content: space-between; gap: 24px;
+    }
+    .faq-q { font-weight: 600; font-size: 18px; }
+    .faq-icon { font-size: 20px; color: var(--brand); flex-shrink: 0; }
+    .faq-a-wrap {
+      display: grid; grid-template-rows: 0fr; opacity: 0;
+      transition: grid-template-rows .5s ease, opacity .5s ease, margin-top .5s ease;
+    }
+    .faq-item.open .faq-a-wrap { grid-template-rows: 1fr; opacity: 1; margin-top: 16px; }
+    .faq-a-wrap > div { overflow: hidden; }
+    .faq-a { color: var(--muted); line-height: 1.6; padding-top: 8px; }
+
+    /* ============================================
+       CTA FINAL
+       ============================================ */
+    .final-cta { text-align: center; }
+    .final-cta h2 {
+      font-size: 30px; font-weight: 700; max-width: 48rem; margin-inline: auto; line-height: 1.05;
+    }
+    @media (min-width: 640px) { .final-cta h2 { font-size: 48px; } }
+    @media (min-width: 1024px) { .final-cta h2 { font-size: 60px; } }
+    .final-cta p { margin-top: 24px; font-size: 18px; color: var(--muted); max-width: 36rem; margin-inline: auto; }
+    .final-cta .cta-wrap { margin-top: 40px; display: flex; justify-content: center; }
+
+    /* ============================================
+       FOOTER
+       ============================================ */
+    .site-footer { border-top: 1px solid var(--border); }
+    .footer-inner {
+      padding-top: 48px; padding-bottom: 48px;
+      display: flex; flex-direction: column; align-items: center; justify-content: space-between; gap: 24px;
+    }
+    @media (min-width: 768px) { .footer-inner { flex-direction: row; } }
+    .footer-inner p { font-size: 14px; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================
+       CABEÇALHO (sticky com logo + nav + CTA)
+       ============================================ -->
+  <header class="site-header">
+    <div class="container-narrow header-inner">
+      <div class="logo-badge">
+        <img src="https://id-preview--2df4dd6e-0069-41a5-8e56-60380563d1f3.lovable.app/__l5e/assets-v1/e3d99b04-fe78-474a-86bc-ded17f548348/dinamica-logo.png" alt="Agência Dinâmica" />
+      </div>
+      <nav class="header-nav">
+        <a href="#para-quem">Para quem é</a>
+        <a href="#curso">O curso</a>
+        <a href="#modulos">Módulos</a>
+        <a href="#oferta">Oferta</a>
+      </nav>
+      <a href="#oferta" class="pathfinder-button compact"><span>Quero acessar</span></a>
+    </div>
+  </header>
+
+  <!-- ============================================
+       HERO
+       ============================================ -->
+  <section class="hero">
+    <div class="container-narrow hero-grid">
+      <div>
+        <div class="hero-badge">
+          <span class="dot"></span>
+          <span class="label">Treinamento da Agência Dinâmica</span>
+        </div>
+        <h1>Crie suas próprias <span class="text-brand">artes e vídeos</span> com aparência profissional</h1>
+        <p class="lead">
+          Aprenda a produzir conteúdos para Instagram usando <strong>aplicativos gratuitos</strong>, sem depender de social media, designer ou editor.
+        </p>
+        <ul class="hero-chips">
+          <li>Artes organizadas</li>
+          <li>Vídeos bem gravados</li>
+          <li>Edição pelo celular</li>
+          <li>Apps gratuitos</li>
+          <li>Começando do zero</li>
+        </ul>
+        <div class="hero-cta-row">
+          <a href="#oferta" class="pathfinder-button"><span>Quero criar meus conteúdos</span></a>
+          <span class="note">Acesso imediato ao conteúdo completo</span>
+        </div>
+      </div>
+
+      <div class="hero-image-wrap">
+        <img src="https://id-preview--2df4dd6e-0069-41a5-8e56-60380563d1f3.lovable.app/__l5e/assets-v1/b5483041-0bec-41bf-baa3-ab4a0464ca06/conteudo-insta.png"
+             alt="Mockup do curso Visual de Autoridade no celular" width="1024" height="1280" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       FAIXA DE PROMESSAS
+       ============================================ -->
+  <section class="promise-strip">
+    <div class="container-narrow promise-inner">
+      <span class="item"><span class="dot"></span>Sem depender de social media</span>
+      <span class="item"><span class="dot"></span>Sem aplicativos pagos</span>
+      <span class="item"><span class="dot"></span>Do zero ao visual profissional</span>
+      <span class="item"><span class="dot"></span>Artes, vídeos e edição no celular</span>
+    </div>
+  </section>
+
+  <!-- ============================================
+       PARA QUEM É
+       ============================================ -->
+  <section id="para-quem" class="section-pad">
+    <div class="container-narrow">
+      <div class="section-head">
+        <span class="section-eyebrow">Para quem é</span>
+        <h2>Esse curso é para você que…</h2>
+      </div>
+      <div class="for-who-grid">
+        <div class="glass-card for-who-card"><span class="num">01</span><p>Trava na hora de criar artes no Canva</p></div>
+        <div class="glass-card for-who-card"><span class="num">02</span><p>Quer gravar vídeos melhores para o Instagram</p></div>
+        <div class="glass-card for-who-card"><span class="num">03</span><p>Não sabe editar seus próprios conteúdos</p></div>
+        <div class="glass-card for-who-card"><span class="num">04</span><p>Quer deixar o perfil mais bonito e profissional</p></div>
+        <div class="glass-card for-who-card"><span class="num">05</span><p>Não quer depender de social media ou designer</p></div>
+        <div class="glass-card for-who-card"><span class="num">06</span><p>Quer aprender usando aplicativos gratuitos</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       PILARES DO CURSO (cards expansíveis)
+       ============================================ -->
+  <section id="curso" class="section-pad">
+    <div class="container-narrow">
+      <div class="section-head">
+        <span class="section-eyebrow">O que você vai aprender</span>
+        <h2>Quatro pilares para o seu <span class="text-brand">visual de autoridade</span></h2>
+      </div>
+
+      <div class="course-grid">
+        <!-- Cada botão expande para mostrar a descrição completa -->
+        <button class="glass-card course-card" data-course>
+          <div class="head"><span class="num">01</span><span class="toggle">Ver detalhes →</span></div>
+          <h3>Criar artes profissionais</h3>
+          <p class="short">Posts, capas de Reels e artes organizadas com aparência profissional.</p>
+          <div class="full-wrap"><div><p class="full">Você vai entender como montar uma arte do zero, organizar os textos, escolher imagens, usar espaços corretamente e criar um padrão visual para o seu Instagram.</p></div></div>
+        </button>
+        <button class="glass-card course-card" data-course>
+          <div class="head"><span class="num">02</span><span class="toggle">Ver detalhes →</span></div>
+          <h3>Gravar seus próprios vídeos</h3>
+          <p class="short">Grave vídeos com mais segurança usando apenas o celular.</p>
+          <div class="full-wrap"><div><p class="full">Você vai aprender como se posicionar na câmera, escolher cenário, melhorar o áudio, gravar em blocos e falar com mais clareza.</p></div></div>
+        </button>
+        <button class="glass-card course-card" data-course>
+          <div class="head"><span class="num">03</span><span class="toggle">Ver detalhes →</span></div>
+          <h3>Editar vídeos pelo celular</h3>
+          <p class="short">Cortes, legendas, ritmo e capa em apps gratuitos.</p>
+          <div class="full-wrap"><div><p class="full">Você vai aprender como cortar partes erradas, deixar o vídeo mais dinâmico, colocar legendas organizadas e finalizar o conteúdo para postar no Instagram.</p></div></div>
+        </button>
+        <button class="glass-card course-card" data-course>
+          <div class="head"><span class="num">04</span><span class="toggle">Ver detalhes →</span></div>
+          <h3>Organizar o visual do Instagram</h3>
+          <p class="short">Deixe o perfil padronizado e com aparência de autoridade.</p>
+          <div class="full-wrap"><div><p class="full">Você vai entender como cores, fontes, capas, artes e vídeos trabalham juntos para criar uma imagem mais profissional no seu perfil.</p></div></div>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       EXEMPLOS (artes / capas / vídeos)
+       ============================================ -->
+  <section class="section-pad">
+    <div class="container-narrow">
+      <div class="section-head">
+        <span class="section-eyebrow">Você vai aprender a fazer isso</span>
+        <h2>Exemplos do tipo de conteúdo que você vai criar</h2>
+        <p class="sub">Artes organizadas, vídeos mais bem editados, capas profissionais e conteúdos visuais com mais presença.</p>
+      </div>
+
+      <div class="examples-grid">
+        <div class="glass-card example-item">
+          <img src="https://id-preview--2df4dd6e-0069-41a5-8e56-60380563d1f3.lovable.app/__l5e/assets-v1/9e00649c-1035-4409-840c-3f8dbd1c6db9/arte-2606.png" alt="Artes pra Instagram" />
+          <div class="gradient"></div>
+          <div class="num-badge">01</div>
+          <p class="label">Artes pra Instagram</p>
+        </div>
+        <div class="glass-card example-item">
+          <img src="https://id-preview--2df4dd6e-0069-41a5-8e56-60380563d1f3.lovable.app/__l5e/assets-v1/150ac6aa-5b57-497c-ab65-f0442b28bd78/capa-0101.png" alt="Capas pra Instagram" />
+          <div class="gradient"></div>
+          <div class="num-badge">02</div>
+          <p class="label">Capas pra Instagram</p>
+        </div>
+        <div class="glass-card example-item">
+          <video src="https://id-preview--2df4dd6e-0069-41a5-8e56-60380563d1f3.lovable.app/__l5e/assets-v1/2c7cb622-1f26-4733-a6ee-772d8e4a595e/video-exemplo.mov" autoplay muted loop playsinline></video>
+          <div class="gradient"></div>
+          <div class="num-badge">03</div>
+          <p class="label">Vídeos</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       CURRÍCULO (7 módulos)
+       ============================================ -->
+  <section id="modulos" class="section-pad">
+    <div class="container-narrow">
+      <div class="section-head">
+        <span class="section-eyebrow">O que tem dentro</span>
+        <h2>7 módulos diretos ao ponto</h2>
+      </div>
+
+      <div class="modules-grid">
+        <div class="module-item"><span class="module-num">01</span><div><p class="label-small">Módulo 1</p><p class="title">O que é Visual de Autoridade</p></div></div>
+        <div class="module-item"><span class="module-num">02</span><div><p class="label-small">Módulo 2</p><p class="title">Como criar uma base visual simples</p></div></div>
+        <div class="module-item"><span class="module-num">03</span><div><p class="label-small">Módulo 3</p><p class="title">Como criar artes usando apps gratuitos</p></div></div>
+        <div class="module-item"><span class="module-num">04</span><div><p class="label-small">Módulo 4</p><p class="title">Como gravar vídeos melhores com o celular</p></div></div>
+        <div class="module-item"><span class="module-num">05</span><div><p class="label-small">Módulo 5</p><p class="title">Como editar vídeos de forma profissional</p></div></div>
+        <div class="module-item"><span class="module-num">06</span><div><p class="label-small">Módulo 6</p><p class="title">Como organizar seu Instagram visualmente</p></div></div>
+        <div class="module-item"><span class="module-num">07</span><div><p class="label-small">Módulo 7</p><p class="title">Projeto final: criando seus próprios conteúdos</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       POR QUE É DIFERENTE
+       ============================================ -->
+  <section class="section-pad">
+    <div class="container-narrow">
+      <div class="glass-card different-card">
+        <span class="section-eyebrow">Por que é diferente</span>
+        <h2>Não foi criado para te deixar <span class="text-brand">dependente</span> de ninguém.</h2>
+        <p>A ideia é te ensinar a criar seus próprios conteúdos, com autonomia, usando ferramentas gratuitas e uma forma simples de organizar suas artes e vídeos.</p>
+        <p>Você não precisa pagar social media, designer ou editor para começar a ter um Instagram com aparência mais profissional.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SOBRE (Agência Dinâmica)
+       ============================================ -->
+  <section class="section-pad">
+    <div class="container-narrow about-grid">
+      <div class="about-logo-wrap">
+        <div class="about-logo-box">
+          <img src="https://id-preview--2df4dd6e-0069-41a5-8e56-60380563d1f3.lovable.app/__l5e/assets-v1/e3d99b04-fe78-474a-86bc-ded17f548348/dinamica-logo.png" alt="Agência Dinâmica" />
+        </div>
+      </div>
+      <div>
+        <span class="section-eyebrow">Quem oferece</span>
+        <h2 style="margin-top:12px;font-size:30px;font-weight:700;">Um treinamento da <span class="text-brand">Agência Dinâmica</span></h2>
+        <p style="margin-top:24px;font-size:18px;color:var(--muted);line-height:1.6;">Agência especializada em design, conteúdos visuais, vídeos, sites e posicionamento digital.</p>
+        <p style="margin-top:16px;font-size:18px;color:var(--muted);line-height:1.6;">A proposta é trazer uma visão prática e profissional de criação de conteúdo, de uma forma simples, acessível e aplicável no dia a dia.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       ANTES E DEPOIS
+       ============================================ -->
+  <section class="section-pad">
+    <div class="container-narrow">
+      <div class="section-head">
+        <span class="section-eyebrow">Antes e depois</span>
+        <h2>A transformação no seu Instagram</h2>
+      </div>
+
+      <div class="ba-grid">
+        <div class="ba-before">
+          <p class="ba-eyebrow">Antes do curso</p>
+          <h3 class="ba-title">Conteúdo amador</h3>
+          <ul class="ba-list">
+            <li><span class="ba-icon">×</span>Artes sem padrão</li>
+            <li><span class="ba-icon">×</span>Vídeos crus</li>
+            <li><span class="ba-icon">×</span>Perfil desorganizado</li>
+            <li><span class="ba-icon">×</span>Dependência de terceiros</li>
+            <li><span class="ba-icon">×</span>Dificuldade para postar</li>
+            <li><span class="ba-icon">×</span>Medo de gravar</li>
+          </ul>
+        </div>
+        <div class="ba-after">
+          <p class="ba-eyebrow">Depois do curso</p>
+          <h3 class="ba-title">Visual de autoridade</h3>
+          <ul class="ba-list">
+            <li><span class="ba-icon">✓</span>Artes mais profissionais</li>
+            <li><span class="ba-icon">✓</span>Vídeos mais dinâmicos</li>
+            <li><span class="ba-icon">✓</span>Perfil mais organizado</li>
+            <li><span class="ba-icon">✓</span>Autonomia para criar</li>
+            <li><span class="ba-icon">✓</span>Conteúdo com mais autoridade</li>
+            <li><span class="ba-icon">✓</span>Mais segurança para aparecer</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       OFERTA
+       ============================================ -->
+  <section id="oferta" class="section-pad">
+    <div class="container-narrow">
+      <div class="offer-card">
+        <div class="offer-inner">
+          <span class="section-eyebrow center">Oferta</span>
+          <h2>Comece a criar seus próprios conteúdos com <span class="text-brand">aparência profissional</span></h2>
+          <p class="lead">Aprenda a criar artes e vídeos para Instagram usando aplicativos gratuitos, mesmo começando do zero.</p>
+
+          <div class="offer-limited"><span class="text">Oferta por tempo limitado</span></div>
+          <div class="offer-price">
+            <span class="offer-old">R$ 197</span>
+            <span class="offer-currency">R$</span>
+            <span class="offer-amount">27</span>
+          </div>
+
+          <ul class="offer-bullets">
+            <li>✓ Acesso imediato</li>
+            <li>✓ 7 dias de garantia</li>
+            <li>✓ Apps gratuitos</li>
+            <li>✓ Assista no celular</li>
+          </ul>
+
+          <div class="offer-cta">
+            <a href="#oferta" class="pathfinder-button"><span>Quero acessar agora</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       FAQ
+       ============================================ -->
+  <section class="section-pad">
+    <div class="faq-wrap">
+      <span class="section-eyebrow center" style="display:flex;justify-content:center;">FAQ</span>
+      <h2 class="faq-title">Perguntas frequentes</h2>
+      <div class="faq-list">
+        <button class="glass-card faq-item open" data-faq>
+          <div class="row"><span class="faq-q">Preciso ter experiência com design?</span><span class="faq-icon">−</span></div>
+          <div class="faq-a-wrap"><div><p class="faq-a">Não. O curso foi feito para quem está começando do zero. Você aprende passo a passo.</p></div></div>
+        </button>
+        <button class="glass-card faq-item" data-faq>
+          <div class="row"><span class="faq-q">Vou precisar pagar por algum aplicativo?</span><span class="faq-icon">+</span></div>
+          <div class="faq-a-wrap"><div><p class="faq-a">Não. Todo o curso é baseado em aplicativos gratuitos. Sem assinaturas, sem ferramentas pagas.</p></div></div>
+        </button>
+        <button class="glass-card faq-item" data-faq>
+          <div class="row"><span class="faq-q">Como funciona o acesso?</span><span class="faq-icon">+</span></div>
+          <div class="faq-a-wrap"><div><p class="faq-a">O acesso é liberado automaticamente após a confirmação da sua inscrição. Você assiste no seu ritmo.</p></div></div>
+        </button>
+        <button class="glass-card faq-item" data-faq>
+          <div class="row"><span class="faq-q">Funciona se eu só tiver o celular?</span><span class="faq-icon">+</span></div>
+          <div class="faq-a-wrap"><div><p class="faq-a">Sim. Todo o conteúdo de gravação e edição é pensado para ser feito direto pelo celular.</p></div></div>
+        </button>
+        <button class="glass-card faq-item" data-faq>
+          <div class="row"><span class="faq-q">Tenho garantia?</span><span class="faq-icon">+</span></div>
+          <div class="faq-a-wrap"><div><p class="faq-a">Sim. Você tem 7 dias de garantia incondicional. Se não gostar, basta solicitar o cancelamento.</p></div></div>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       CTA FINAL
+       ============================================ -->
+  <section class="section-pad">
+    <div class="container-narrow final-cta">
+      <h2>Pare de depender de outras pessoas para criar seus conteúdos.</h2>
+      <p>Aprenda a fazer suas próprias artes e vídeos com mais qualidade, organização e aparência profissional.</p>
+      <div class="cta-wrap">
+        <a href="#oferta" class="pathfinder-button"><span>Quero começar agora</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       RODAPÉ
+       ============================================ -->
+  <footer class="site-footer">
+    <div class="container-narrow footer-inner">
+      <div class="logo-badge">
+        <img src="https://id-preview--2df4dd6e-0069-41a5-8e56-60380563d1f3.lovable.app/__l5e/assets-v1/e3d99b04-fe78-474a-86bc-ded17f548348/dinamica-logo.png" alt="Agência Dinâmica" />
+      </div>
+      <p>© <span id="ano"></span> Agência Dinâmica · Visual de Autoridade</p>
+    </div>
+  </footer>
+
+  <!-- ============================================
+       JAVASCRIPT — interatividade dos cards/FAQ
+       ============================================ -->
+  <script>
+    // Ano atual no rodapé
+    document.getElementById('ano').textContent = new Date().getFullYear();
+
+    // Cards de curso expansíveis — somente um aberto por vez
+    document.querySelectorAll('[data-course]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var jaAberto = btn.classList.contains('open');
+        document.querySelectorAll('[data-course]').forEach(function (b) {
+          b.classList.remove('open');
+          var t = b.querySelector('.toggle');
+          if (t) t.textContent = 'Ver detalhes →';
+        });
+        if (!jaAberto) {
+          btn.classList.add('open');
+          var t = btn.querySelector('.toggle');
+          if (t) t.textContent = 'Fechar −';
+        }
+      });
+    });
+
+    // Acordeão da seção FAQ — abre/fecha uma pergunta por vez
+    document.querySelectorAll('[data-faq]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var jaAberto = btn.classList.contains('open');
+        document.querySelectorAll('[data-faq]').forEach(function (b) {
+          b.classList.remove('open');
+          var ic = b.querySelector('.faq-icon');
+          if (ic) ic.textContent = '+';
+        });
+        if (!jaAberto) {
+          btn.classList.add('open');
+          var ic = btn.querySelector('.faq-icon');
+          if (ic) ic.textContent = '−';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
